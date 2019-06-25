@@ -5,7 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.1'
@@ -19,10 +19,35 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    /**********************************************************************************************
+     PROJECT
+     *********************************************************************************************/
+    compileVersion = 28
+    buildToolsVersion = "28.0.3"
+
+    applicationId = "com.gibranlyra.moviedb"
+    minSdkVersion = 22
+    targetSdkVersion = 28
+    versionCode = 1
+    versionName = "1.0"
+
+    /**********************************************************************************************
+     DEPENDENCIES
+     *********************************************************************************************/
+    roomVersion = "2.1.0"
+    retrofitVersion = "2.5.0"
+    loggingInterceptor = "3.10.0"
+    rxJavaVersion = "2.2.8"
+    rxAndroidVersion = "2.1.1"
+    timberVersion = "4.7.1"
+    jUnitVersion = "4.12"
 }

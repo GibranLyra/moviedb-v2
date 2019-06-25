@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+dependencies {
+    //Retrofit
+    api "com.squareup.retrofit2:retrofit:${rootProject.retrofitVersion}"
+    api "com.squareup.retrofit2:adapter-rxjava2:${rootProject.retrofitVersion}"
+    api "com.squareup.retrofit2:converter-gson:${rootProject.retrofitVersion}"
+
+
+    //RX
+    api "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaVersion"
+    api "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
+
+    // Room Database
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.room:room-rxjava2:$roomVersion"
+
+    //Logging Interceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.loggingInterceptor}"
+
+    //Timber
+    api "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
+
+    //Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
