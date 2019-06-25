@@ -1,7 +1,8 @@
-package com.gibranlyra.moviedb
+package com.gibranlyra.moviedb.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.gibranlyra.moviedb.R
 
 class MainActivity : AppCompatActivity() {
 

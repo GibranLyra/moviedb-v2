@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MovieDb</string>
+    <string name="popular_recycler_label">Popular</string>
+    <string name="top_recycler_label">Top</string>
+    <string name="top_rated_recycler_label">Top Rated</string>
+    <string name="upcoming_recycler_label">Upcoming</string>
 </resources>
