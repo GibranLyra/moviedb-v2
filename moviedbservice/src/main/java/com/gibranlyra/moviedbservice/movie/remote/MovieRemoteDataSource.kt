@@ -13,7 +13,7 @@ import timber.log.Timber
 /* Vote Average constant for testing purposes */
 internal const val VOTE_AVERAGE_DEFAULT: Int = 5
 
-object MovieApi : MovieDataSource {
+object MovieRemoteDataSource : MovieDataSource {
     private val movieService: MovieService by lazy { MovieDbApiModule.retrofit.create(MovieService::class.java) }
 
     override fun getMovies(forceReload: Boolean, page: Int): Single<List<Movie>> {
@@ -24,7 +24,7 @@ object MovieApi : MovieDataSource {
                 .doOnError { Timber.e(it, "getMovies: %s", it.message) }
     }
 
-    override fun getMovie(movieId: Int): Single<Movie> {
+    override fun getMovie(movieId: String): Single<Movie> {
         return movieService.getMovie(movieId)
                 .doOnError { e -> Timber.e(e, "getMovie: %s", e.message) }
     }
@@ -35,6 +35,6 @@ object MovieApi : MovieDataSource {
                       @Query("vote_average.gte") voteAverage: Int): Single<MovieDbResponse>
 
         @GET("movie/{movieId}")
-        fun getMovie(@Path("movieId") movieId: Int): Single<Movie>
+        fun getMovie(@Path("movieId") movieId: String): Single<Movie>
     }
 }

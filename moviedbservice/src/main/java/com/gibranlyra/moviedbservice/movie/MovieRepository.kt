@@ -1,19 +1,26 @@
 package com.gibranlyra.moviedbservice.movie
 
 import com.gibranlyra.moviedbservice.model.Movie
-import com.gibranlyra.moviedbservice.movie.local.MovieLocalDataSource
 import io.reactivex.Single
 
-object MovieRepository : MovieDataSource {
-    lateinit var remoteDataSource: MovieDataSource
+class MovieRepository(private val remoteDataSource: MovieDataSource,
+                      private val localDataSource: MovieDataSource) : MovieDataSource {
 
-    lateinit var localDataSource: MovieLocalDataSource
-    var initialized = false
+    companion object {
 
-    fun init(remoteDataSource: MovieDataSource, localDataSource: MovieLocalDataSource) {
-        this.remoteDataSource = remoteDataSource
-        this.localDataSource = localDataSource
-        initialized = true
+        private var INSTANCE: MovieRepository? = null
+        @JvmStatic
+        fun getInstance(movieRemoteDataSource: MovieDataSource,
+                        movieLocalDataSource: MovieDataSource) =
+                INSTANCE ?: synchronized(MovieRepository::class.java) {
+                    INSTANCE ?: MovieRepository(movieRemoteDataSource, movieLocalDataSource)
+                            .also { INSTANCE = it }
+                }
+
+        @JvmStatic
+        fun destroyInstance() {
+            INSTANCE = null
+        }
     }
 
     private var cachedMovies: List<Movie>? = null

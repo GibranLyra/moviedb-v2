@@ -26,7 +26,7 @@ object MovieDbApiModule {
                 .create()
     }
 
-    fun buildRetrofit(logLevel: HttpLoggingInterceptor.Level) {
+    fun buildRetrofit(logLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY) {
         val builder = buildClient(logLevel, READ_TIMEOUT_DEFAULT, CONNECT_TIMEOUT_DEFAULT)
 
         builder.addInterceptor { chain ->

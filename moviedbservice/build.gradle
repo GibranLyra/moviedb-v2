@@ -46,7 +46,7 @@ dependencies {
     implementation "androidx.room:room-rxjava2:$roomVersion"
 
     //Logging Interceptor
-    implementation "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.loggingInterceptor}"
+    api "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.loggingInterceptor}"
 
     //Timber
     api "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"
