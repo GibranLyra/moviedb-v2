@@ -2,10 +2,10 @@
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainFragmentRootView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -36,11 +36,17 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainFragmentPopularRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/mainFragmentTopTextView"
             app:layout_constraintEnd_toEndOf="@+id/mainFragmentPopularTextView"
             app:layout_constraintStart_toStartOf="@+id/mainFragmentPopularTextView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentPopularTextView"/>
+            app:layout_constraintTop_toBottomOf="@+id/mainFragmentPopularTextView"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_movie"/>
 
         <TextView
             android:id="@+id/mainFragmentTopTextView"

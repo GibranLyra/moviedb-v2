@@ -10,11 +10,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
+import com.gibranlyra.moviedb.ui.component.movie.BaseAdapter
+import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter
 import com.gibranlyra.moviedb.util.ext.showSnackBar
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
+import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
-import timber.log.Timber
 
 class MainFragment : Fragment() {
     companion object {
@@ -30,6 +32,13 @@ class MainFragment : Fragment() {
                 .get(MainViewModel::class.java)
     }
 
+    private val popularMovieAdapter by lazy {
+        MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
+            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
+
+            }
+        })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +47,11 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_main, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mainFragmentPopularRecyclerView.adapter = popularMovieAdapter
+    }
 
     private fun initViewModel() {
         with(viewModel) {
@@ -50,9 +64,7 @@ class MainFragment : Fragment() {
                         }
 
                     }
-                    SUCCESS -> {
-                        Timber.d("initViewModel: ")
-                    }
+                    SUCCESS -> popularMovieAdapter.add(it.data!!.toMutableList(), true)
                     ERROR -> mainFragmentRootView.showSnackBar(it.message!!, Snackbar.LENGTH_LONG,
                             "Tentar novamente", it.callback!!)
                 }
