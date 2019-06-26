@@ -12,7 +12,9 @@ import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
 import com.gibranlyra.moviedb.ui.component.movie.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter
+import com.gibranlyra.moviedb.util.ext.gone
 import com.gibranlyra.moviedb.util.ext.showSnackBar
+import com.gibranlyra.moviedb.util.ext.visible
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
@@ -32,11 +34,21 @@ class MainFragment : Fragment() {
                 .get(MainViewModel::class.java)
     }
 
-    private val popularMovieAdapter by lazy {
+    private val topRatedAdapter by lazy {
         MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
-            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
+            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {}
+        })
+    }
 
-            }
+    private val upcomingAdapter by lazy {
+        MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
+            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {}
+        })
+    }
+
+    private val popularAdapter by lazy {
+        MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
+            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {}
         })
     }
 
@@ -50,27 +62,75 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainFragmentPopularRecyclerView.adapter = popularMovieAdapter
+        mainFragmentTopRatedRecyclerView.adapter = topRatedAdapter
+        mainFragmentUpcomingRecyclerView.adapter = upcomingAdapter
+        mainFragmentPopularRecyclerView.adapter = popularAdapter
     }
 
     private fun initViewModel() {
         with(viewModel) {
-            movieLive.observe(this@MainFragment, Observer {
+            topRatedLive.observe(this@MainFragment, Observer {
                 when (it.status) {
                     LOADING -> {
                         when (it.loading) {
-                            true -> mainFragmentLoading.show()
-                            false -> mainFragmentLoading.hide()
+                            true -> {
+                                mainFragmentTopRatedLoading.show()
+                                mainFragmentTopRatedRecyclerView.gone()
+                            }
+                            false -> {
+                                mainFragmentTopRatedLoading.hide()
+                                mainFragmentTopRatedRecyclerView.visible()
+                            }
                         }
-
                     }
-                    SUCCESS -> popularMovieAdapter.add(it.data!!.toMutableList(), true)
-                    ERROR -> mainFragmentRootView.showSnackBar(it.message!!, Snackbar.LENGTH_LONG,
-                            "Tentar novamente", it.callback!!)
+                    SUCCESS -> topRatedAdapter.add(it.data!!.toMutableList(), true)
+                    ERROR -> showError(it.message!!, it.action!!)
                 }
             })
 
-            loadMovies()
+            upcomingLive.observe(this@MainFragment, Observer {
+                when (it.status) {
+                    LOADING -> {
+                        when (it.loading) {
+                            true -> {
+                                mainFragmentUpcomingLoading.show()
+                                mainFragmentUpcomingRecyclerView.gone()
+                            }
+                            false -> {
+                                mainFragmentUpcomingLoading.hide()
+                                mainFragmentUpcomingRecyclerView.visible()
+                            }
+                        }
+                    }
+                    SUCCESS -> topRatedAdapter.add(it.data!!.toMutableList(), true)
+                    ERROR -> showError(it.message!!, it.action!!)
+                }
+            })
+
+            popularLive.observe(this@MainFragment, Observer {
+                when (it.status) {
+                    LOADING -> {
+                        when (it.loading) {
+                            true -> {
+                                mainFragmentPopularLoading.show()
+                                mainFragmentPopularRecyclerView.gone()
+                            }
+                            false -> {
+                                mainFragmentPopularLoading.hide()
+                                mainFragmentPopularRecyclerView.visible()
+                            }
+                        }
+                    }
+                    SUCCESS -> topRatedAdapter.add(it.data!!.toMutableList(), true)
+                    ERROR -> showError(it.message!!, it.action!!)
+                }
+            })
+
+            start()
         }
+    }
+
+    private fun showError(message: String, action: () -> Unit) {
+        mainFragmentRootView.showSnackBar(message, Snackbar.LENGTH_LONG, "Tentar novamente", action)
     }
 }

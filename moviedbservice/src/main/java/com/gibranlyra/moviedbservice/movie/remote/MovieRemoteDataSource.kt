@@ -57,7 +57,7 @@ object MovieRemoteDataSource : MovieDataSource {
         @GET("movie/{movieId}")
         fun getMovie(@Path("movieId") movieId: String): Single<Movie>
 
-        @GET("movie/topRated")
+        @GET("movie/top_rated")
         fun topRated(@Query("page") page: Int): Single<MovieDbResponse<Movie>>
 
         @GET("movie/upcoming")

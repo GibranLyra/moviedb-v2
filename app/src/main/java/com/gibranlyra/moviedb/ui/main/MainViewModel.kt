@@ -18,20 +18,13 @@ class MainViewModel(application: Application,
     private val subscriptions: CompositeDisposable = CompositeDisposable()
 
     val topRatedLive = MutableLiveData<Resource<List<Movie>>>()
-    val movieLive = MutableLiveData<Resource<List<Movie>>>()
+    val upcomingLive = MutableLiveData<Resource<List<Movie>>>()
+    val popularLive = MutableLiveData<Resource<List<Movie>>>()
 
-    fun loadMovies() {
-        subscriptions.add(movieDataSource.discoverMovies()
-                .subscribeOn(scheduler.io())
-                .observeOn(scheduler.ui())
-                .doOnSubscribe { movieLive.value = Resource.loading(true) }
-                .doFinally { movieLive.value = Resource.loading(false) }
-                .subscribe({
-                    movieLive.value = Resource.success(it)
-                }, {
-                    Timber.e(it, "loadMovies: %s", it.message)
-                    movieLive.value = Resource.error("Erro genérico") { loadMovies() }
-                }))
+    fun start() {
+        loadTopRated()
+        loadUpcoming()
+        loadPopular()
     }
 
     fun loadTopRated() {
@@ -41,13 +34,44 @@ class MainViewModel(application: Application,
                 .doOnSubscribe { topRatedLive.value = Resource.loading(true) }
                 .doFinally { topRatedLive.value = Resource.loading(false) }
                 .subscribe({
-                    topRatedLive.value = Resource.success()
+                    topRatedLive.value = Resource.success(it)
                 }, {
                     Timber.e(it, "loadTopRated: %s", it.message)
                     val callback = { loadTopRated() }
                     topRatedLive.value = Resource.error(null, callback)
                 }))
     }
+
+    fun loadUpcoming() {
+        subscriptions.add(movieDataSource.upcoming()
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .doOnSubscribe { upcomingLive.value = Resource.loading(true) }
+                .doFinally { upcomingLive.value = Resource.loading(false) }
+                .subscribe({
+                    upcomingLive.value = Resource.success(it)
+                }, {
+                    Timber.e(it, "loadUpcoming: %s", it.message)
+                    val callback = { loadTopRated() }
+                    upcomingLive.value = Resource.error(null, callback)
+                }))
+    }
+
+    fun loadPopular() {
+        subscriptions.add(movieDataSource.popular()
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .doOnSubscribe { popularLive.value = Resource.loading(true) }
+                .doFinally { popularLive.value = Resource.loading(false) }
+                .subscribe({
+                    popularLive.value = Resource.success(it)
+                }, {
+                    Timber.e(it, "loadPopular: %s", it.message)
+                    val callback = { loadPopular() }
+                    popularLive.value = Resource.error(null, callback)
+                }))
+    }
+
 
     override fun onCleared() {
         super.onCleared()
