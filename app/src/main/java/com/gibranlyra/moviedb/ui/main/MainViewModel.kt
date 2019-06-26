@@ -14,8 +14,10 @@ class MainViewModel(application: Application,
                     private val movieDataSource: MovieDataSource,
                     private val scheduler: BaseSchedulerProvider) : AndroidViewModel(application) {
 
+
     private val subscriptions: CompositeDisposable = CompositeDisposable()
 
+    val topRatedLive = MutableLiveData<Resource<List<Movie>>>()
     val movieLive = MutableLiveData<Resource<List<Movie>>>()
 
     fun loadMovies() {
@@ -29,6 +31,21 @@ class MainViewModel(application: Application,
                 }, {
                     Timber.e(it, "loadMovies: %s", it.message)
                     movieLive.value = Resource.error("Erro genérico") { loadMovies() }
+                }))
+    }
+
+    fun loadTopRated() {
+        subscriptions.add(movieDataSource.topRated()
+                .subscribeOn(scheduler.io())
+                .observeOn(scheduler.ui())
+                .doOnSubscribe { topRatedLive.value = Resource.loading(true) }
+                .doFinally { topRatedLive.value = Resource.loading(false) }
+                .subscribe({
+                    topRatedLive.value = Resource.success()
+                }, {
+                    Timber.e(it, "loadTopRated: %s", it.message)
+                    val callback = { loadTopRated() }
+                    topRatedLive.value = Resource.error(null, callback)
                 }))
     }
 

@@ -28,7 +28,6 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
 
     override fun discoverMovies(forceReload: Boolean, page: Int): Single<List<Movie>> {
         cacheIsDirty = forceReload
-        // Respond immediately with cache if available and not dirty
         if (cachedMovies != null && !cacheIsDirty) {
             return Single.just(cachedMovies)
         }
@@ -40,7 +39,6 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
                         cacheIsDirty = false
                     }
         } else {
-            //Check local data source, if is empty call the remote
             localDataSource.discoverMovies()
                     .flatMap {
                         when {
@@ -64,8 +62,110 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
     }
 
     override fun topRated(forceReload: Boolean, page: Int): Single<List<Movie>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        cacheIsDirty = forceReload
+        if (cachedMovies != null && !cacheIsDirty) {
+            return Single.just(cachedMovies)
+        }
+        return if (cacheIsDirty) {
+            remoteDataSource
+                    .topRated()
+                    .doOnSuccess {
+                        localDataSource.saveMovies(it)
+                        cacheIsDirty = false
+                    }
+        } else {
+            localDataSource.topRated()
+                    .flatMap {
+                        when {
+                            it.isEmpty() -> {
+                                remoteDataSource.topRated()
+                                        .map { movies ->
+                                            localDataSource.saveMovies(movies)
+                                            return@map movies
+                                        }
+                            }
+                            else -> {
+                                Single.just(it)
+                            }
+                        }
+                    }
+                    .map {
+                        cachedMovies = it
+                        return@map it
+                    }
+        }
     }
+
+    override fun upcoming(forceReload: Boolean, page: Int): Single<List<Movie>> {
+        cacheIsDirty = forceReload
+        if (cachedMovies != null && !cacheIsDirty) {
+            return Single.just(cachedMovies)
+        }
+        return if (cacheIsDirty) {
+            remoteDataSource
+                    .upcoming()
+                    .doOnSuccess {
+                        localDataSource.saveMovies(it)
+                        cacheIsDirty = false
+                    }
+        } else {
+            localDataSource.upcoming()
+                    .flatMap {
+                        when {
+                            it.isEmpty() -> {
+                                remoteDataSource.upcoming()
+                                        .map { movies ->
+                                            localDataSource.saveMovies(movies)
+                                            return@map movies
+                                        }
+                            }
+                            else -> {
+                                Single.just(it)
+                            }
+                        }
+                    }
+                    .map {
+                        cachedMovies = it
+                        return@map it
+                    }
+        }
+    }
+
+    override fun popular(forceReload: Boolean, page: Int): Single<List<Movie>> {
+        cacheIsDirty = forceReload
+        if (cachedMovies != null && !cacheIsDirty) {
+            return Single.just(cachedMovies)
+        }
+        return if (cacheIsDirty) {
+            remoteDataSource
+                    .popular()
+                    .doOnSuccess {
+                        localDataSource.saveMovies(it)
+                        cacheIsDirty = false
+                    }
+        } else {
+            localDataSource.popular()
+                    .flatMap {
+                        when {
+                            it.isEmpty() -> {
+                                remoteDataSource.popular()
+                                        .map { movies ->
+                                            localDataSource.saveMovies(movies)
+                                            return@map movies
+                                        }
+                            }
+                            else -> {
+                                Single.just(it)
+                            }
+                        }
+                    }
+                    .map {
+                        cachedMovies = it
+                        return@map it
+                    }
+        }
+    }
+
     /*not cached*/
     override fun getMovie(movieId: String): Single<Movie> {
         return remoteDataSource.getMovie(movieId)

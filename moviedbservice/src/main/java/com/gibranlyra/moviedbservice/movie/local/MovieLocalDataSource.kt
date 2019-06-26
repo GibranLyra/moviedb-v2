@@ -7,6 +7,7 @@ import com.gibranlyra.moviedbservice.room.MovieDataBase
 import io.reactivex.Single
 
 class MovieLocalDataSource private constructor(private val movieDataBase: MovieDataBase) : MovieDataSource {
+
     companion object {
         private var INSTANCE: MovieLocalDataSource? = null
 
@@ -29,6 +30,10 @@ class MovieLocalDataSource private constructor(private val movieDataBase: MovieD
     override fun discoverMovies(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
 
     override fun topRated(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
+
+    override fun upcoming(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
+
+    override fun popular(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
 
     override fun saveMovies(movies: List<Movie>) {
         movieDataBase.movieDao().deleteAll()
