@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders
-                .of(this, ViewModelFactory.getInstance(MyApp.instance))
+                .of(activity!!, ViewModelFactory.getInstance(MyApp.instance))
                 .get(MainViewModel::class.java)
     }
 
@@ -60,11 +60,6 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_main, container, false)
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.start()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainFragmentTopRatedRecyclerView.adapter = topRatedAdapter
@@ -80,7 +75,7 @@ class MainFragment : Fragment() {
                         true -> mainFragmentLoading.visible()
                         false -> mainFragmentLoading.gone()
                     }
-                    SUCCESS -> loadMovies()
+                    SUCCESS -> loadMovies(it.data!!)
                     ERROR -> showError(it.message!!, it.action!!)
                 }
             })
