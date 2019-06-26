@@ -27,13 +27,11 @@ class MovieLocalDataSource private constructor(private val movieDataBase: MovieD
         }
     }
 
-    override fun discoverMovies(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
+    override fun topRated(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getTopRated() }
 
-    override fun topRated(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
+    override fun upcoming(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getUpcoming() }
 
-    override fun upcoming(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
-
-    override fun popular(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getAll() }
+    override fun popular(forceReload: Boolean, page: Int) = Single.fromCallable { movieDataBase.movieDao().getPopular() }
 
     override fun saveMovies(movies: List<Movie>) {
         movieDataBase.movieDao().deleteAll()

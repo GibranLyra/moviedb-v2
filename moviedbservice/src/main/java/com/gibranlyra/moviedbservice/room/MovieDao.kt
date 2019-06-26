@@ -28,4 +28,13 @@ interface MovieDao {
 
     @Query("DELETE FROM movie")
     fun deleteAll()
+
+    @Query("SELECT * FROM movie ORDER BY voteAverage DESC")
+    fun getTopRated(): List<Movie>
+
+    @Query("SELECT * FROM movie ORDER BY popularity DESC")
+    fun getPopular(): List<Movie>
+
+    @Query("SELECT * FROM movie ORDER BY releaseDate DESC")
+    fun getUpcoming(): List<Movie>
 }

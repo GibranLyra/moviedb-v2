@@ -26,41 +26,6 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
 
     private var cacheIsDirty = false
 
-    override fun discoverMovies(forceReload: Boolean, page: Int): Single<List<Movie>> {
-        cacheIsDirty = forceReload
-        if (cachedMovies != null && !cacheIsDirty) {
-            return Single.just(cachedMovies)
-        }
-        return if (cacheIsDirty) {
-            remoteDataSource
-                    .discoverMovies()
-                    .doOnSuccess {
-                        localDataSource.saveMovies(it)
-                        cacheIsDirty = false
-                    }
-        } else {
-            localDataSource.discoverMovies()
-                    .flatMap {
-                        when {
-                            it.isEmpty() -> {
-                                remoteDataSource.discoverMovies()
-                                        .map { movies ->
-                                            localDataSource.saveMovies(movies)
-                                            return@map movies
-                                        }
-                            }
-                            else -> {
-                                Single.just(it)
-                            }
-                        }
-                    }
-                    .map {
-                        cachedMovies = it
-                        return@map it
-                    }
-        }
-    }
-
     override fun topRated(forceReload: Boolean, page: Int): Single<List<Movie>> {
         cacheIsDirty = forceReload
         if (cachedMovies != null && !cacheIsDirty) {

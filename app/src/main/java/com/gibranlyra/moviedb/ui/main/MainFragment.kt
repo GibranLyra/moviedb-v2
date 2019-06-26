@@ -102,7 +102,7 @@ class MainFragment : Fragment() {
                             }
                         }
                     }
-                    SUCCESS -> topRatedAdapter.add(it.data!!.toMutableList(), true)
+                    SUCCESS -> upcomingAdapter.add(it.data!!.toMutableList(), true)
                     ERROR -> showError(it.message!!, it.action!!)
                 }
             })
@@ -121,7 +121,7 @@ class MainFragment : Fragment() {
                             }
                         }
                     }
-                    SUCCESS -> topRatedAdapter.add(it.data!!.toMutableList(), true)
+                    SUCCESS -> popularAdapter.add(it.data!!.toMutableList(), true)
                     ERROR -> showError(it.message!!, it.action!!)
                 }
             })
