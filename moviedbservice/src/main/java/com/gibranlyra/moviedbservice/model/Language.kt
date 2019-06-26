@@ -1,3 +1,3 @@
 package com.gibranlyra.moviedbservice.model
 
-data class Language(var name: String? = null, var iso6391: String? = null)
+data class Language(val name: String? = null, val iso6391: String? = null)

@@ -60,6 +60,11 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_main, container, false)
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.start()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainFragmentTopRatedRecyclerView.adapter = topRatedAdapter
@@ -69,18 +74,27 @@ class MainFragment : Fragment() {
 
     private fun initViewModel() {
         with(viewModel) {
+            configurationLive.observe(this@MainFragment, Observer {
+                when (it.status) {
+                    LOADING -> when (it.loading) {
+                        true -> mainFragmentLoading.visible()
+                        false -> mainFragmentLoading.gone()
+                    }
+                    SUCCESS -> loadMovies()
+                    ERROR -> showError(it.message!!, it.action!!)
+                }
+            })
+
             topRatedLive.observe(this@MainFragment, Observer {
                 when (it.status) {
-                    LOADING -> {
-                        when (it.loading) {
-                            true -> {
-                                mainFragmentTopRatedLoading.show()
-                                mainFragmentTopRatedRecyclerView.gone()
-                            }
-                            false -> {
-                                mainFragmentTopRatedLoading.hide()
-                                mainFragmentTopRatedRecyclerView.visible()
-                            }
+                    LOADING -> when (it.loading) {
+                        true -> {
+                            mainFragmentTopRatedLoading.show()
+                            mainFragmentTopRatedRecyclerView.gone()
+                        }
+                        false -> {
+                            mainFragmentTopRatedLoading.hide()
+                            mainFragmentTopRatedRecyclerView.visible()
                         }
                     }
                     SUCCESS -> topRatedAdapter.add(it.data!!.toMutableList(), true)
@@ -90,16 +104,14 @@ class MainFragment : Fragment() {
 
             upcomingLive.observe(this@MainFragment, Observer {
                 when (it.status) {
-                    LOADING -> {
-                        when (it.loading) {
-                            true -> {
-                                mainFragmentUpcomingLoading.show()
-                                mainFragmentUpcomingRecyclerView.gone()
-                            }
-                            false -> {
-                                mainFragmentUpcomingLoading.hide()
-                                mainFragmentUpcomingRecyclerView.visible()
-                            }
+                    LOADING -> when (it.loading) {
+                        true -> {
+                            mainFragmentUpcomingLoading.show()
+                            mainFragmentUpcomingRecyclerView.gone()
+                        }
+                        false -> {
+                            mainFragmentUpcomingLoading.hide()
+                            mainFragmentUpcomingRecyclerView.visible()
                         }
                     }
                     SUCCESS -> upcomingAdapter.add(it.data!!.toMutableList(), true)
@@ -109,16 +121,14 @@ class MainFragment : Fragment() {
 
             popularLive.observe(this@MainFragment, Observer {
                 when (it.status) {
-                    LOADING -> {
-                        when (it.loading) {
-                            true -> {
-                                mainFragmentPopularLoading.show()
-                                mainFragmentPopularRecyclerView.gone()
-                            }
-                            false -> {
-                                mainFragmentPopularLoading.hide()
-                                mainFragmentPopularRecyclerView.visible()
-                            }
+                    LOADING -> when (it.loading) {
+                        true -> {
+                            mainFragmentPopularLoading.show()
+                            mainFragmentPopularRecyclerView.gone()
+                        }
+                        false -> {
+                            mainFragmentPopularLoading.hide()
+                            mainFragmentPopularRecyclerView.visible()
                         }
                     }
                     SUCCESS -> popularAdapter.add(it.data!!.toMutableList(), true)

@@ -8,33 +8,33 @@ import androidx.room.PrimaryKey
 @Entity
 data class Movie(
         @PrimaryKey(autoGenerate = true)
-        var uId: Int,
-        var originalLanguage: String? = null,
-        var imdbId: String? = null,
-        var isVideo: Boolean = false,
-        var title: String? = null,
-        var backdropPath: String? = null,
-        var revenue: Int? = null,
+        val uId: Int,
+        val originalLanguage: String? = null,
+        val imdbId: String? = null,
+        val isVideo: Boolean = false,
+        val title: String? = null,
+        val backdropPath: String? = null,
+        val revenue: Int? = null,
         @Embedded(prefix = "movie_genres")
-        var genres: ArrayList<Genre>? = null,
-        var popularity: Double? = null,
+        val genres: ArrayList<Genre>? = null,
+        val popularity: Double? = null,
         @Embedded(prefix = "movie_countries")
-        var movieCountries: ArrayList<Country>? = null,
+        val movieCountries: ArrayList<Country>? = null,
         @ColumnInfo(name = "id", index = true)
-        var id: Int,
-        var voteCount: Int = 0,
-        var budget: Int = 0,
-        var overview: String? = null,
-        var originalTitle: String? = null,
-        var runtime: Int? = null,
-        var posterPath: String? = null,
+        val id: Int,
+        val voteCount: Int = 0,
+        val budget: Int = 0,
+        val overview: String? = null,
+        val originalTitle: String? = null,
+        val runtime: Int? = null,
+        val posterPath: String? = null,
         @Embedded(prefix = "movie_languages")
-        var spokenLanguages: ArrayList<Language>? = null,
+        val spokenLanguages: ArrayList<Language>? = null,
         @Embedded(prefix = "movie_companies")
-        var movieCompanies: ArrayList<Company>? = null,
-        var releaseDate: String? = null,
-        var voteAverage: Double? = null,
-        var tagline: String? = null,
-        var isAdult: Boolean = false,
-        var homepage: String? = null,
-        var status: String? = null)
+        val movieCompanies: ArrayList<Company>? = null,
+        val releaseDate: String? = null,
+        val voteAverage: Double? = null,
+        val tagline: String? = null,
+        val isAdult: Boolean = false,
+        val homepage: String? = null,
+        val status: String? = null)

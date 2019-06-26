@@ -17,7 +17,9 @@ class ViewModelFactory private constructor(private val application: MyApp) :
             with(modelClass) {
                 when {
                     isAssignableFrom(MainViewModel::class.java) ->
-                        MainViewModel(application, Injection.provideMovieRepository(application), SchedulerProvider)
+                        MainViewModel(application,
+                                Injection.provideConfigurationRepository(application),
+                                Injection.provideMovieRepository(application), SchedulerProvider)
 
                     else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

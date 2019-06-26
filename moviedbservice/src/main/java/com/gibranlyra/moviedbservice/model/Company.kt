@@ -1,3 +1,3 @@
 package com.gibranlyra.moviedbservice.model
 
-data class Company(var name: String? = null, var id: Int = 0)
+data class Company(val name: String? = null, val id: Int = 0)

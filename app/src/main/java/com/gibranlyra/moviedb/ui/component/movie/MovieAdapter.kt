@@ -25,7 +25,7 @@ class MovieAdapter(items: MutableList<Movie>, listener: AdapterListener<Movie>) 
     inner class ViewHolder(itemView: View) : BaseAdapter.ViewHolder<Movie>(itemView) {
         override fun bind(item: Movie) {
             with(itemView) {
-                movieItemImageView.loadImage(item.posterPath!!)
+                movieItemImageView.loadImage(item.posterPath?: "")
                 movieItemTitleView.text = item.originalTitle!!
             }
         }

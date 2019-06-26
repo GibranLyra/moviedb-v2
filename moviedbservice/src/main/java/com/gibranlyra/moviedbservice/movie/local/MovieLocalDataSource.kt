@@ -1,9 +1,9 @@
 package com.gibranlyra.moviedbservice.movie.local
 
 import androidx.annotation.VisibleForTesting
+import com.gibranlyra.moviedbservice.db.movie.MovieDataBase
 import com.gibranlyra.moviedbservice.model.Movie
 import com.gibranlyra.moviedbservice.movie.MovieDataSource
-import com.gibranlyra.moviedbservice.room.MovieDataBase
 import io.reactivex.Single
 
 class MovieLocalDataSource private constructor(private val movieDataBase: MovieDataBase) : MovieDataSource {

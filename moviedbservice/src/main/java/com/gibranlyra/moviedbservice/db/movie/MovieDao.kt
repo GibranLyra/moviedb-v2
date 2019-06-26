@@ -1,4 +1,4 @@
-package com.gibranlyra.moviedbservice.room
+package com.gibranlyra.moviedbservice.db.movie
 
 import androidx.room.*
 import com.gibranlyra.moviedbservice.model.Movie

@@ -1,4 +1,4 @@
-package com.gibranlyra.moviedbservice.room
+package com.gibranlyra.moviedbservice.db.movie
 
 import android.content.Context
 import androidx.room.Database

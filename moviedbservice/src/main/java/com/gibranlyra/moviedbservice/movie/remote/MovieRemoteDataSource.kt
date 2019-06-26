@@ -11,9 +11,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import timber.log.Timber
 
+
+const val MOVIEDB_LANGUAGE = "en-US"
+
 enum class SortBy(val serializeName: String) {
     POPULARITY("popularity.desc"),
-    RELEASE_DATE("release_date.desc"),
+    RELEASE_DATE("release_date.asc"),
     TOP_RATED("top_rated.desc")
 }
 
@@ -26,20 +29,20 @@ object MovieRemoteDataSource : MovieDataSource {
     }
 
     override fun topRated(forceReload: Boolean, page: Int): Single<List<Movie>> {
-        return movieService.discoverMovies(page, TOP_RATED.serializeName)
+        return movieService.discoverMovies(page, MOVIEDB_LANGUAGE, TOP_RATED.serializeName)
                 .map { return@map it.results }
                 .doOnError { Timber.e(it, "topRated: ${it.message}") }
     }
 
     override fun upcoming(forceReload: Boolean, page: Int): Single<List<Movie>> {
-        return movieService.discoverMovies(page, RELEASE_DATE.serializeName)
+        return movieService.discoverMovies(page, MOVIEDB_LANGUAGE, RELEASE_DATE.serializeName)
                 .map { return@map it.results }
                 .doOnError { Timber.e(it, "upcoming: ${it.message}") }
 
     }
 
     override fun popular(forceReload: Boolean, page: Int): Single<List<Movie>> {
-        return movieService.discoverMovies(page, POPULARITY.serializeName)
+        return movieService.discoverMovies(page,  MOVIEDB_LANGUAGE,POPULARITY.serializeName)
                 .map { return@map it.results }
                 .doOnError { Timber.e(it, "popular: ${it.message}") }
 
@@ -52,6 +55,7 @@ object MovieRemoteDataSource : MovieDataSource {
 
         @GET("discover/movie")
         fun discoverMovies(@Query("page") page: Int,
-                           @Query("sor_by") sortBy: String): Single<MovieDbResponse<Movie>>
+                           @Query("language") language: String,
+                           @Query("sort_by") sortBy: String): Single<MovieDbResponse<Movie>>
     }
 }

@@ -1,11 +1,13 @@
-package com.gibranlyra.moviedbservice.configuration
+package com.gibranlyra.moviedbservice.configuration.remote
 
 import com.gibranlyra.moviedbservice.MovieDbApiModule
+import com.gibranlyra.moviedbservice.configuration.ConfigurationDataSource
 import com.gibranlyra.moviedbservice.model.Configuration
 import io.reactivex.Single
+import retrofit2.http.GET
 import timber.log.Timber
 
-object ConfigurationApi : ConfigurationDataSource {
+object ConfigurationRemoteDataSource : ConfigurationDataSource {
 
     private val configurationService: ConfigurationService
 
@@ -14,11 +16,16 @@ object ConfigurationApi : ConfigurationDataSource {
         configurationService = retrofit.create(ConfigurationService::class.java)
     }
 
-    override fun getConfiguration(): Single<Configuration> {
+    override fun getConfiguration(forceReload: Boolean): Single<List<Configuration>> {
         return configurationService.getConfiguration()
                 .map {
-                    return@map it
+                    return@map listOf(it)
                 }
                 .doOnError { e -> Timber.e(e, "getConfiguration: %s", e.message) }
+    }
+
+    internal interface ConfigurationService {
+        @GET("configuration")
+        fun getConfiguration(): Single<Configuration>
     }
 }
