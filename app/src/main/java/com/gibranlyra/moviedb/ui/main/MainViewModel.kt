@@ -96,7 +96,9 @@ class MainViewModel(application: Application,
     private fun loadPopular(images: Images) {
         subscriptions.add(movieDataSource.popular()
                 .subscribeOn(scheduler.io())
-                .map { it.map { movie -> movie.buildImages(images) } }
+                .map {movies ->
+                    movies.map { movie -> movie.buildImages(images) }
+                }
                 .flatMap { updatedMovies ->
                     movieDataSource.update(updatedMovies)
                             .toSingle { }
