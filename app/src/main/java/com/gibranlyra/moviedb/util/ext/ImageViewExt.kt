@@ -7,7 +7,7 @@ import com.gibranlyra.moviedb.R
 fun ImageView.loadImage(url: String) {
     Glide.with(this)
             .load(url)
-            .centerCrop()
+            .centerInside()
             .placeholder(R.drawable.ic_launcher_background)
             .into(this)
 }
