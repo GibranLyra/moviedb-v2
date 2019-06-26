@@ -14,14 +14,15 @@ import timber.log.Timber
 internal const val VOTE_AVERAGE_DEFAULT: Int = 5
 
 object MovieRemoteDataSource : MovieDataSource {
+
     private val movieService: MovieService by lazy { MovieDbApiModule.retrofit.create(MovieService::class.java) }
 
-    override fun getMovies(forceReload: Boolean, page: Int): Single<List<Movie>> {
-        return movieService.getMovies(page, VOTE_AVERAGE_DEFAULT)
+    override fun discoverMovies(forceReload: Boolean, page: Int): Single<List<Movie>> {
+        return movieService.discoverMovies(page, VOTE_AVERAGE_DEFAULT)
                 .map {
                     return@map it.results
                 }
-                .doOnError { Timber.e(it, "getMovies: %s", it.message) }
+                .doOnError { Timber.e(it, "discoverMovies: %s", it.message) }
     }
 
     override fun getMovie(movieId: String): Single<Movie> {
@@ -29,12 +30,21 @@ object MovieRemoteDataSource : MovieDataSource {
                 .doOnError { e -> Timber.e(e, "getMovie: %s", e.message) }
     }
 
+    override fun topRated(forceReload: Boolean, page: Int): Single<List<Movie>> {
+        return movieService.topRated(page)
+                .map { return@map it.results }
+                .doOnError { Timber.e(it, "topRated: ${it.message}") }
+    }
+
     internal interface MovieService {
         @GET("discover/movie")
-        fun getMovies(@Query("page") page: Int,
-                      @Query("vote_average.gte") voteAverage: Int): Single<MovieDbResponse>
+        fun discoverMovies(@Query("page") page: Int,
+                           @Query("vote_average.gte") voteAverage: Int): Single<MovieDbResponse<Movie>>
 
         @GET("movie/{movieId}")
         fun getMovie(@Path("movieId") movieId: String): Single<Movie>
+
+        @GET("movie/topRated")
+        fun topRated(@Query("page") page: Int): Single<MovieDbResponse<Movie>>
     }
 }

@@ -10,9 +10,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-internal const val BASE_URL = "https://api.themoviedb.org/4/"
+internal const val BASE_URL = "https://api.themoviedb.org/3/"
 internal const val API_KEY_NAME = "api_key"
-internal const val API_KEY_VALUE = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2Y2I2Y2E2YjA4N2Q5ZjdjZWQ2MTg0MTc4MjU4YzM2NCIsInN1YiI6IjVhNzg4MDA1MGUwYTI2NTk5MTAxNGJlZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PgP8iO-jrPO7hv_j--QZIc7LV-r1S0nFJOBzn3yNX-g"
+internal const val API_KEY_VALUE = "6cb6ca6b087d9f7ced6184178258c364"
 
 internal const val READ_TIMEOUT_DEFAULT: Long = 60
 internal const val CONNECT_TIMEOUT_DEFAULT: Long = 60
@@ -30,11 +30,12 @@ object MovieDbApiModule {
         val builder = buildClient(logLevel, READ_TIMEOUT_DEFAULT, CONNECT_TIMEOUT_DEFAULT)
 
         builder.addInterceptor { chain ->
-            chain.proceed(chain.request().newBuilder().header("Authorization", "Bearer $API_KEY_VALUE").build())
-        }
-
-        builder.addInterceptor { chain ->
-            chain.proceed(chain.request().newBuilder().header("Content-Type", "application/json;charset=utf-8").build())
+            val original = chain.request()
+            val url = original.url().newBuilder()
+                    .addQueryParameter(API_KEY_NAME, API_KEY_VALUE)
+                    .build()
+            val requestBuilder = original.newBuilder().url(url)
+            chain.proceed(requestBuilder.build())
         }
 
         retrofit = Retrofit.Builder()

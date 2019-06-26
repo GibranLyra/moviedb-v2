@@ -31,7 +31,7 @@ data class Movie(
         @Embedded(prefix = "movie_languages")
         var spokenLanguages: ArrayList<Language>? = null,
         @Embedded(prefix = "movie_companies")
-        var movieiCompanies: ArrayList<Company>? = null,
+        var movieCompanies: ArrayList<Company>? = null,
         var releaseDate: String? = null,
         var voteAverage: Double? = null,
         var tagline: String? = null,

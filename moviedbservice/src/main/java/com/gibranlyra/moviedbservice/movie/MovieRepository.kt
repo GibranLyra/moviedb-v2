@@ -5,7 +5,6 @@ import io.reactivex.Single
 
 class MovieRepository(private val remoteDataSource: MovieDataSource,
                       private val localDataSource: MovieDataSource) : MovieDataSource {
-
     companion object {
 
         private var INSTANCE: MovieRepository? = null
@@ -27,7 +26,7 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
 
     private var cacheIsDirty = false
 
-    override fun getMovies(forceReload: Boolean, page: Int): Single<List<Movie>> {
+    override fun discoverMovies(forceReload: Boolean, page: Int): Single<List<Movie>> {
         cacheIsDirty = forceReload
         // Respond immediately with cache if available and not dirty
         if (cachedMovies != null && !cacheIsDirty) {
@@ -35,18 +34,18 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
         }
         return if (cacheIsDirty) {
             remoteDataSource
-                    .getMovies()
+                    .discoverMovies()
                     .doOnSuccess {
                         localDataSource.saveMovies(it)
                         cacheIsDirty = false
                     }
         } else {
             //Check local data source, if is empty call the remote
-            localDataSource.getMovies()
+            localDataSource.discoverMovies()
                     .flatMap {
                         when {
                             it.isEmpty() -> {
-                                remoteDataSource.getMovies()
+                                remoteDataSource.discoverMovies()
                                         .map { movies ->
                                             localDataSource.saveMovies(movies)
                                             return@map movies
@@ -64,6 +63,9 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
         }
     }
 
+    override fun topRated(forceReload: Boolean, page: Int): Single<List<Movie>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
     /*not cached*/
     override fun getMovie(movieId: String): Single<Movie> {
         return remoteDataSource.getMovie(movieId)

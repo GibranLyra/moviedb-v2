@@ -19,7 +19,7 @@ class MainViewModel(application: Application,
     val movieLive = MutableLiveData<Resource<List<Movie>>>()
 
     fun loadMovies() {
-        subscriptions.add(movieDataSource.getMovies()
+        subscriptions.add(movieDataSource.discoverMovies()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .doOnSubscribe { movieLive.value = Resource.loading(true) }
