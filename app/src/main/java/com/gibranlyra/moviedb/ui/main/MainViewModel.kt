@@ -53,9 +53,15 @@ class MainViewModel(application: Application,
 
     private fun loadTopRated(images: Images) {
         Timber.d("loadConfiguration: ")
-        subscriptions.add(movieDataSource.topRated(true)
+        subscriptions.add(movieDataSource
+                .topRated()
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
+                .flatMap { updatedMovies ->
+                    movieDataSource.update(updatedMovies)
+                            .toSingle { }
+                            .map { updatedMovies }
+                }
                 .observeOn(scheduler.ui())
                 .doOnSubscribe { topRatedLive.value = Resource.loading(true) }
                 .doFinally { topRatedLive.value = Resource.loading(false) }
@@ -68,9 +74,14 @@ class MainViewModel(application: Application,
     }
 
     private fun loadUpcoming(images: Images) {
-        subscriptions.add(movieDataSource.upcoming(true)
+        subscriptions.add(movieDataSource.upcoming()
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
+                .flatMap { updatedMovies ->
+                    movieDataSource.update(updatedMovies)
+                            .toSingle { }
+                            .map { updatedMovies }
+                }
                 .observeOn(scheduler.ui())
                 .doOnSubscribe { upcomingLive.value = Resource.loading(true) }
                 .doFinally { upcomingLive.value = Resource.loading(false) }
@@ -83,9 +94,14 @@ class MainViewModel(application: Application,
     }
 
     private fun loadPopular(images: Images) {
-        subscriptions.add(movieDataSource.popular(true)
+        subscriptions.add(movieDataSource.popular()
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
+                .flatMap { updatedMovies ->
+                    movieDataSource.update(updatedMovies)
+                            .toSingle { }
+                            .map { updatedMovies }
+                }
                 .observeOn(scheduler.ui())
                 .doOnSubscribe { popularLive.value = Resource.loading(true) }
                 .doFinally { popularLive.value = Resource.loading(false) }

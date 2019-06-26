@@ -1,6 +1,7 @@
 package com.gibranlyra.moviedbservice.movie
 
 import com.gibranlyra.moviedbservice.model.Movie
+import io.reactivex.Completable
 import io.reactivex.Single
 
 class MovieRepository(private val remoteDataSource: MovieDataSource,
@@ -9,8 +10,7 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
 
         private var INSTANCE: MovieRepository? = null
         @JvmStatic
-        fun getInstance(movieRemoteDataSource: MovieDataSource,
-                        movieLocalDataSource: MovieDataSource) =
+        fun getInstance(movieRemoteDataSource: MovieDataSource, movieLocalDataSource: MovieDataSource) =
                 INSTANCE ?: synchronized(MovieRepository::class.java) {
                     INSTANCE ?: MovieRepository(movieRemoteDataSource, movieLocalDataSource)
                             .also { INSTANCE = it }
@@ -34,20 +34,15 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
         return if (cacheIsDirty) {
             remoteDataSource
                     .topRated()
-                    .doOnSuccess {
-                        localDataSource.saveMovies(it)
-                        cacheIsDirty = false
-                    }
+                    .flatMap { localDataSource.saveMovies(it).toSingle { it } }
+                    .doOnSuccess { cacheIsDirty = false }
         } else {
             localDataSource.topRated()
                     .flatMap {
                         when {
                             it.isEmpty() -> {
                                 remoteDataSource.topRated()
-                                        .map { movies ->
-                                            localDataSource.saveMovies(movies)
-                                            return@map movies
-                                        }
+                                        .flatMap { movies -> localDataSource.saveMovies(movies).toSingle { movies } }
                             }
                             else -> {
                                 Single.just(it)
@@ -69,6 +64,7 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
         return if (cacheIsDirty) {
             remoteDataSource
                     .upcoming()
+                    .flatMap { localDataSource.saveMovies(it).toSingle { it } }
                     .doOnSuccess {
                         localDataSource.saveMovies(it)
                         cacheIsDirty = false
@@ -79,10 +75,7 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
                         when {
                             it.isEmpty() -> {
                                 remoteDataSource.upcoming()
-                                        .map { movies ->
-                                            localDataSource.saveMovies(movies)
-                                            return@map movies
-                                        }
+                                        .flatMap { movies -> localDataSource.saveMovies(movies).toSingle { movies } }
                             }
                             else -> {
                                 Single.just(it)
@@ -104,20 +97,15 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
         return if (cacheIsDirty) {
             remoteDataSource
                     .popular()
-                    .doOnSuccess {
-                        localDataSource.saveMovies(it)
-                        cacheIsDirty = false
-                    }
+                    .flatMap { localDataSource.saveMovies(it).toSingle { it } }
+                    .doOnSuccess { cacheIsDirty = false }
         } else {
             localDataSource.popular()
                     .flatMap {
                         when {
                             it.isEmpty() -> {
                                 remoteDataSource.popular()
-                                        .map { movies ->
-                                            localDataSource.saveMovies(movies)
-                                            return@map movies
-                                        }
+                                        .flatMap { movies -> localDataSource.saveMovies(movies).toSingle { movies } }
                             }
                             else -> {
                                 Single.just(it)
@@ -134,5 +122,13 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
     /*not cached*/
     override fun getMovie(movieId: String): Single<Movie> {
         return remoteDataSource.getMovie(movieId)
+    }
+
+    override fun update(movie: Movie): Completable {
+        return localDataSource.update(movie)
+    }
+
+    override fun update(movies: List<Movie>): Completable {
+        return localDataSource.update(movies)
     }
 }

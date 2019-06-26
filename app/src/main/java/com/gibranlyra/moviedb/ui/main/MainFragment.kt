@@ -30,7 +30,7 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders
-                .of(activity!!, ViewModelFactory.getInstance(MyApp.instance))
+                .of(this, ViewModelFactory.getInstance(MyApp.instance))
                 .get(MainViewModel::class.java)
     }
 

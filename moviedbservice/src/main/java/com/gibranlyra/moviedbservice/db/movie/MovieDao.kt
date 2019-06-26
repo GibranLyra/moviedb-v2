@@ -2,39 +2,44 @@ package com.gibranlyra.moviedbservice.db.movie
 
 import androidx.room.*
 import com.gibranlyra.moviedbservice.model.Movie
+import io.reactivex.Completable
+import io.reactivex.Single
 
 @Dao
 interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(movie: Movie): Long
+    fun insert(movie: Movie): Completable
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(movies: List<Movie>): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(movies: List<Movie>): Completable
 
-    @Update(onConflict = OnConflictStrategy.ABORT)
-    fun update(movie: Movie): Int
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun update(movie: Movie): Completable
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun update(movie: List<Movie>): Completable
 
     @Delete
-    fun delete(movie: Movie): Int
+    fun delete(movie: Movie): Completable
 
     @Query("SELECT * FROM movie")
-    fun getAll(): List<Movie>
+    fun getAll(): Single<List<Movie>>
 
     @Query("SELECT * FROM movie WHERE id LIKE :id")
-    fun findById(id: String): Movie
+    fun findById(id: String): Single<Movie>
 
     @Query("DELETE FROM movie WHERE id LIKE :id")
-    fun deleteById(id: String)
+    fun deleteById(id: String): Completable
 
     @Query("DELETE FROM movie")
-    fun deleteAll()
+    fun deleteAll(): Completable
 
     @Query("SELECT * FROM movie ORDER BY voteAverage DESC")
-    fun getTopRated(): List<Movie>
+    fun getTopRated(): Single<List<Movie>>
 
     @Query("SELECT * FROM movie ORDER BY popularity DESC")
-    fun getPopular(): List<Movie>
+    fun getPopular(): Single<List<Movie>>
 
     @Query("SELECT * FROM movie ORDER BY releaseDate DESC")
-    fun getUpcoming(): List<Movie>
+    fun getUpcoming(): Single<List<Movie>>
 }
