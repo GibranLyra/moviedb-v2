@@ -34,12 +34,12 @@ interface MovieDao {
     @Query("DELETE FROM movie")
     fun deleteAll(): Completable
 
-    @Query("SELECT * FROM movie ORDER BY voteAverage DESC")
+    @Query("SELECT * FROM movie ORDER BY voteAverage DESC LIMIT 20")
     fun getTopRated(): Single<List<Movie>>
 
-    @Query("SELECT * FROM movie ORDER BY popularity DESC")
+    @Query("SELECT * FROM movie ORDER BY popularity DESC LIMIT 20")
     fun getPopular(): Single<List<Movie>>
 
-    @Query("SELECT * FROM movie ORDER BY releaseDate DESC")
+    @Query("SELECT * FROM movie ORDER BY releaseDate DESC LIMIT 20")
     fun getUpcoming(): Single<List<Movie>>
 }
