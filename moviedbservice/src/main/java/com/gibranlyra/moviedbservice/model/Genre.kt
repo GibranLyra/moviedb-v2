@@ -1,6 +1,7 @@
 package com.gibranlyra.moviedbservice.model
 
-import androidx.room.Entity
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-@Entity
-data class Genre(val name: String? = null, val id: Int = 0)
+@Parcelize
+data class Genre(val name: String? = null, val id: Int = 0): Parcelable

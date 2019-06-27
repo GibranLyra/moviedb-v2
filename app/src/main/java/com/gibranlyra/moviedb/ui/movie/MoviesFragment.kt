@@ -1,4 +1,4 @@
-package com.gibranlyra.moviedb.ui.main
+package com.gibranlyra.moviedb.ui.movie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,18 +20,18 @@ import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : Fragment() {
+class MoviesFragment : Fragment() {
     companion object {
         @JvmStatic
-        fun newInstance(): MainFragment {
-            return MainFragment()
+        fun newInstance(): MoviesFragment {
+            return MoviesFragment()
         }
     }
 
-    private val viewModel: MainViewModel by lazy {
+    private val viewModel: MoviesViewModel by lazy {
         ViewModelProviders
                 .of(this, ViewModelFactory.getInstance(MyApp.instance))
-                .get(MainViewModel::class.java)
+                .get(MoviesViewModel::class.java)
     }
 
     private val topRatedAdapter by lazy {
@@ -69,7 +69,7 @@ class MainFragment : Fragment() {
 
     private fun initViewModel() {
         with(viewModel) {
-            configurationLive.observe(this@MainFragment, Observer {
+            configurationLive.observe(this@MoviesFragment, Observer {
                 when (it.status) {
                     LOADING -> when (it.loading) {
                         true -> mainFragmentLoading.visible()
@@ -80,7 +80,7 @@ class MainFragment : Fragment() {
                 }
             })
 
-            topRatedLive.observe(this@MainFragment, Observer {
+            topRatedLive.observe(this@MoviesFragment, Observer {
                 when (it.status) {
                     LOADING -> when (it.loading) {
                         true -> {
@@ -97,7 +97,7 @@ class MainFragment : Fragment() {
                 }
             })
 
-            upcomingLive.observe(this@MainFragment, Observer {
+            upcomingLive.observe(this@MoviesFragment, Observer {
                 when (it.status) {
                     LOADING -> when (it.loading) {
                         true -> {
@@ -114,7 +114,7 @@ class MainFragment : Fragment() {
                 }
             })
 
-            popularLive.observe(this@MainFragment, Observer {
+            popularLive.observe(this@MoviesFragment, Observer {
                 when (it.status) {
                     LOADING -> when (it.loading) {
                         true -> {

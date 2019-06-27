@@ -1,3 +1,7 @@
 package com.gibranlyra.moviedbservice.model
 
-data class Language(val name: String? = null, val iso6391: String? = null)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class Language(val name: String? = null, val iso6391: String? = null): Parcelable

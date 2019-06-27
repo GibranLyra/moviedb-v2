@@ -1,4 +1,4 @@
-package com.gibranlyra.moviedb.ui.main
+package com.gibranlyra.moviedb.ui.movie
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -13,10 +13,10 @@ import com.gibranlyra.moviedbservice.movie.MovieDataSource
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-class MainViewModel(application: Application,
-                    private val configurationDataSource: ConfigurationDataSource,
-                    private val movieDataSource: MovieDataSource,
-                    private val scheduler: BaseSchedulerProvider) : AndroidViewModel(application) {
+class MoviesViewModel(application: Application,
+                      private val configurationDataSource: ConfigurationDataSource,
+                      private val movieDataSource: MovieDataSource,
+                      private val scheduler: BaseSchedulerProvider) : AndroidViewModel(application) {
 
 
     private val subscriptions: CompositeDisposable = CompositeDisposable()

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.fastshop.ecommerce.refactor.util.schedulers.SchedulerProvider
 import com.gibranlyra.moviedb.MyApp
-import com.gibranlyra.moviedb.ui.main.MainViewModel
+import com.gibranlyra.moviedb.ui.movie.MoviesViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(private val application: MyApp) :
@@ -16,8 +16,8 @@ class ViewModelFactory private constructor(private val application: MyApp) :
     override fun <T : ViewModel> create(modelClass: Class<T>) =
             with(modelClass) {
                 when {
-                    isAssignableFrom(MainViewModel::class.java) ->
-                        MainViewModel(application,
+                    isAssignableFrom(MoviesViewModel::class.java) ->
+                        MoviesViewModel(application,
                                 Injection.provideConfigurationRepository(application),
                                 Injection.provideMovieRepository(application), SchedulerProvider)
 

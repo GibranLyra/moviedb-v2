@@ -1,10 +1,13 @@
 package com.gibranlyra.moviedbservice.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity
 data class Movie(
         @PrimaryKey(autoGenerate = true)
@@ -37,4 +40,4 @@ data class Movie(
         val tagline: String? = null,
         val isAdult: Boolean = false,
         val homepage: String? = null,
-        val status: String? = null)
+        val status: String? = null):Parcelable

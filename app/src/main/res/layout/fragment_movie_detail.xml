@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/movieDetailMovieImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toTopOf="@+id/movieDetailRatingView"
+        app:layout_constraintEnd_toStartOf="@+id/movieDetailMovieTitleView"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <RatingBar
+        android:id="@+id/movieDetailRatingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/movieDetailMovieTitleView"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintTop_toBottomOf="@+id/movieDetailMovieImageView"/>
+
+    <TextView
+        android:id="@+id/movieDetailMovieTitleView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/movieDetailReleaseDateView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Avengers"/>
+
+    <TextView
+        android:id="@+id/movieDetailReleaseDateView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintTop_toBottomOf="@+id/movieDetailMovieTitleView"
+        app:layout_constraintVertical_bias="0"
+        tools:text="2015-05-01"
+        />
+
+    <TextView
+        android:id="@+id/movieDetailReleaseStatusView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintTop_toBottomOf="@+id/movieDetailReleaseDateView"
+        app:layout_constraintVertical_bias="0"
+        tools:text="Released"/>
+
+    <TextView
+        android:id="@+id/movieDetailLengthView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintTop_toBottomOf="@+id/movieDetailReleaseStatusView"
+        app:layout_constraintVertical_bias="0"
+        tools:text="142 min."/>
+
+    <TextView
+        android:id="@+id/movieDetailCountryView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/movieDetailMovieImageView"
+        app:layout_constraintTop_toBottomOf="@+id/movieDetailLengthView"
+        app:layout_constraintVertical_bias="0"
+        tools:text="United States"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
