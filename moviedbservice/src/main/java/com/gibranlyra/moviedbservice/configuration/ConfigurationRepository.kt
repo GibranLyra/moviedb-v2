@@ -34,8 +34,8 @@ class ConfigurationRepository(private val remoteDataSource: ConfigurationDataSou
         return if (cacheIsDirty) {
             remoteDataSource
                     .getConfiguration(forceReload)
+                    .flatMap { localDataSource.saveConfiguration(it.first()).toSingle { it } }
                     .doOnSuccess {
-                        localDataSource.saveConfiguration(it.first())
                         cacheIsDirty = false
                     }
         } else {
@@ -44,9 +44,8 @@ class ConfigurationRepository(private val remoteDataSource: ConfigurationDataSou
                         when {
                             it.isEmpty() -> {
                                 remoteDataSource.getConfiguration(forceReload)
-                                        .map { configuration ->
-                                            localDataSource.saveConfiguration(configuration.first())
-                                            return@map configuration
+                                        .flatMap { configuration ->
+                                            localDataSource.saveConfiguration(configuration.first()).toSingle { configuration }
                                         }
                             }
                             else -> {

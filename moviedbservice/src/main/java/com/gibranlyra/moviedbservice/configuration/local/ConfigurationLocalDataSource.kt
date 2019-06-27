@@ -4,7 +4,7 @@ import androidx.annotation.VisibleForTesting
 import com.gibranlyra.moviedbservice.configuration.ConfigurationDataSource
 import com.gibranlyra.moviedbservice.db.configuration.ConfigurationDataBase
 import com.gibranlyra.moviedbservice.model.Configuration
-import io.reactivex.Single
+import timber.log.Timber
 
 class ConfigurationLocalDataSource private constructor(private val configurationDataBase: ConfigurationDataBase)
     : ConfigurationDataSource {
@@ -28,11 +28,15 @@ class ConfigurationLocalDataSource private constructor(private val configuration
         }
     }
 
-    override fun getConfiguration(forceReload: Boolean): Single<List<Configuration>> =
-            Single.fromCallable { configurationDataBase.configurationDao().get() }
+    override fun getConfiguration(forceReload: Boolean)
+            = configurationDataBase.configurationDao().get()
+            .map {
+                Timber.d("getConfiguration: ")
+                it
+            }
 
-    override fun saveConfiguration(configuration: Configuration) {
-        configurationDataBase.configurationDao().deleteAll()
-        configurationDataBase.configurationDao().insert(configuration)
-    }
+    override fun saveConfiguration(configuration: Configuration) = configurationDataBase.configurationDao()
+            .deleteAll()
+            .toSingle { }
+            .flatMapCompletable { configurationDataBase.configurationDao().insert(configuration) }
 }

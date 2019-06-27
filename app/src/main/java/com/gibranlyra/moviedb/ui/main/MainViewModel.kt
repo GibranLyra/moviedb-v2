@@ -37,7 +37,7 @@ class MainViewModel(application: Application,
     }
 
     private fun loadConfiguration() {
-        subscriptions.add(configurationDataSource.getConfiguration(true)
+        subscriptions.add(configurationDataSource.getConfiguration()
                 .subscribeOn(scheduler.io())
                 .observeOn(scheduler.ui())
                 .doOnSubscribe { configurationLive.value = Resource.loading(true) }
@@ -52,9 +52,7 @@ class MainViewModel(application: Application,
     }
 
     private fun loadTopRated(images: Images) {
-        Timber.d("loadConfiguration: ")
-        subscriptions.add(movieDataSource
-                .topRated()
+        subscriptions.add(movieDataSource.topRated()
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
                 .flatMap { updatedMovies ->
@@ -96,7 +94,7 @@ class MainViewModel(application: Application,
     private fun loadPopular(images: Images) {
         subscriptions.add(movieDataSource.popular()
                 .subscribeOn(scheduler.io())
-                .map {movies ->
+                .map { movies ->
                     movies.map { movie -> movie.buildImages(images) }
                 }
                 .flatMap { updatedMovies ->

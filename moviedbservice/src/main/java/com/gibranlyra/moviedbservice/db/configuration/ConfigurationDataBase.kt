@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.gibranlyra.moviedbservice.db.Converters
 import com.gibranlyra.moviedbservice.model.Configuration
 
 @Database(entities = [Configuration::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class ConfigurationDataBase : RoomDatabase() {
     abstract fun configurationDao(): ConfigurationDao
 

@@ -5,6 +5,7 @@ import com.gibranlyra.moviedbservice.db.movie.MovieDataBase
 import com.gibranlyra.moviedbservice.model.Movie
 import com.gibranlyra.moviedbservice.movie.MovieDataSource
 import io.reactivex.Completable
+import io.reactivex.Single
 import timber.log.Timber
 
 class MovieLocalDataSource private constructor(private val movieDataBase: MovieDataBase) : MovieDataSource {
@@ -32,7 +33,7 @@ class MovieLocalDataSource private constructor(private val movieDataBase: MovieD
 
     override fun upcoming(forceReload: Boolean, page: Int) = movieDataBase.movieDao().getUpcoming()
 
-    override fun popular(forceReload: Boolean, page: Int) = movieDataBase.movieDao().getPopular()
+    override fun popular(forceReload: Boolean, page: Int): Single<List<Movie>> = movieDataBase.movieDao().getPopular()
 
     override fun saveMovies(movies: List<Movie>) = movieDataBase.movieDao()
             .deleteAll()
