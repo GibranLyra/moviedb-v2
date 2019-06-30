@@ -4,4 +4,6 @@
     <string name="top_rated_recycler_label">Top Rated</string>
     <string name="upcoming_recycler_label">Upcoming</string>
     <string name="movie_image_content_description">Movie Image</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="movie_image_content_description">Movie Image</string>
 </resources>

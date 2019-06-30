@@ -120,7 +120,7 @@ class MovieRepository(private val remoteDataSource: MovieDataSource,
     }
 
     /*not cached*/
-    override fun getMovie(movieId: String): Single<Movie> {
+    override fun getMovie(movieId: Int): Single<Movie> {
         return remoteDataSource.getMovie(movieId)
     }
 

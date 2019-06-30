@@ -23,7 +23,7 @@ enum class SortBy(val serializeName: String) {
 object MovieRemoteDataSource : MovieDataSource {
     private val movieService: MovieService by lazy { MovieDbApiModule.retrofit.create(MovieService::class.java) }
 
-    override fun getMovie(movieId: String): Single<Movie> {
+    override fun getMovie(movieId: Int): Single<Movie> {
         return movieService.getMovie(movieId)
                 .doOnError { e -> Timber.e(e, "getMovie: %s", e.message) }
     }

@@ -7,10 +7,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/movieDetailLoadingView"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <ImageView
         android:id="@+id/movieDetailMovieImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/movie_image_content_description"
         android:src="@drawable/ic_launcher_background"
         app:layout_constraintBottom_toTopOf="@+id/movieDetailRatingView"
         app:layout_constraintEnd_toStartOf="@+id/movieDetailMovieTitleView"
@@ -52,8 +63,7 @@
         app:layout_constraintStart_toEndOf="@+id/movieDetailMovieImageView"
         app:layout_constraintTop_toBottomOf="@+id/movieDetailMovieTitleView"
         app:layout_constraintVertical_bias="0"
-        tools:text="2015-05-01"
-        />
+        tools:text="2015-05-01"/>
 
     <TextView
         android:id="@+id/movieDetailReleaseStatusView"

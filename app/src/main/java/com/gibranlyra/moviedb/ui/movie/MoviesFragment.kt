@@ -136,6 +136,6 @@ class MoviesFragment : Fragment() {
     }
 
     private fun showError(message: String, action: () -> Unit) {
-        mainFragmentRootView.showSnackBar(message, Snackbar.LENGTH_LONG, "Tentar novamente", action)
+        mainFragmentRootView.showSnackBar(message, Snackbar.LENGTH_LONG, getString(R.string.try_again), action)
     }
 }

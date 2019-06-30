@@ -18,6 +18,7 @@ class MovieAdapter(items: MutableList<Movie>, listener: AdapterListener<Movie>) 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         with(holder.itemView){
+
         }
 
     }

@@ -40,5 +40,5 @@ class MovieLocalDataSource private constructor(private val movieDataBase: MovieD
 
     override fun update(movie: Movie) = movieDataBase.movieDao().update(movie)
 
-    override fun getMovie(movieId: String) = movieDataBase.movieDao().findById(movieId)
+    override fun getMovie(movieId: Int) = movieDataBase.movieDao().findById(movieId)
 }

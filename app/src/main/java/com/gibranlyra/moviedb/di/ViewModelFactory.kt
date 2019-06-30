@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.fastshop.ecommerce.refactor.util.schedulers.SchedulerProvider
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.ui.movie.MoviesViewModel
+import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(private val application: MyApp) :
@@ -20,6 +21,11 @@ class ViewModelFactory private constructor(private val application: MyApp) :
                         MoviesViewModel(application,
                                 Injection.provideConfigurationRepository(application),
                                 Injection.provideMovieRepository(application), SchedulerProvider)
+
+                    isAssignableFrom(MovieDetailViewModel::class.java) ->
+                        MovieDetailViewModel(application,
+                                Injection.provideMovieRepository(application),
+                                SchedulerProvider)
 
                     else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
                 }

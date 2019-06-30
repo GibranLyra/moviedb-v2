@@ -5,7 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 
 interface MovieDataSource {
-    fun getMovie(movieId: String): Single<Movie>
+    fun getMovie(movieId: Int): Single<Movie>
     fun topRated(forceReload: Boolean = false, page: Int = 1): Single<List<Movie>>
     fun upcoming(forceReload: Boolean = false, page: Int = 1): Single<List<Movie>>
     fun popular(forceReload: Boolean = false, page: Int = 1): Single<List<Movie>>

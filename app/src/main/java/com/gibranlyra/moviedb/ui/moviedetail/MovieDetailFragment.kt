@@ -5,9 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.R
+import com.gibranlyra.moviedb.di.ViewModelFactory
+import com.gibranlyra.moviedb.util.ext.loadImage
 import com.gibranlyra.moviedb.util.ext.requiredBundleNotFound
+import com.gibranlyra.moviedb.util.ext.showSnackBar
+import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
 const val EXTRA_MOVIE = "EXTRA_MOVIE"
 
@@ -23,6 +33,13 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
+    private val viewModel: MovieDetailViewModel by lazy {
+        ViewModelProviders
+                .of(this, ViewModelFactory.getInstance(MyApp.instance))
+                .get(MovieDetailViewModel::class.java)
+    }
+
+
     private lateinit var movie: Movie
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,4 +53,48 @@ class MovieDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_movie_detail, container, false)
+
+    fun initViewModel() {
+        with(viewModel) {
+            configurationLive.observe(this@MovieDetailFragment, Observer {
+                when (it.status) {
+                    LOADING -> when (it.loading) { /*DO NOTHING*/
+                    }
+                    SUCCESS -> loadMovieDetails(movie.id, it.data!!)
+                    ERROR -> showError(it.message!!, it.action!!)
+                }
+            })
+
+            movieDetailsLive.observe(this@MovieDetailFragment, Observer {
+                when (it.status) {
+                    LOADING -> {
+                        when (it.loading) {
+                            true -> movieDetailLoadingView.hide()
+                            false -> movieDetailLoadingView.show()
+                        }
+                    }
+
+                    SUCCESS -> {
+                        movie = it.data!!
+                        with(movie) {
+                            movieDetailMovieImageView.loadImage(backdropPath!!)
+                            movieDetailMovieTitleView.text = originalTitle
+                            movieDetailReleaseDateView.text = releaseDate
+                            movieDetailReleaseStatusView.text = status
+                            //TODO check length property
+                            //movieDetailLengthView.text =
+                            movieDetailRatingView.numStars = movie.voteAverage!!.toInt()
+                        }
+                    }
+                    ERROR -> showError(it.message!!, it.action!!)
+                }
+            })
+
+            start()
+        }
+    }
+
+    private fun showError(message: String, action: () -> Unit) {
+        mainFragmentRootView.showSnackBar(message, Snackbar.LENGTH_LONG, getString(R.string.try_again), action)
+    }
 }
