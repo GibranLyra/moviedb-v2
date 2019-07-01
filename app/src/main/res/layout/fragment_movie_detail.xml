@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movieDetailRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -20,9 +21,8 @@
     <ImageView
         android:id="@+id/movieDetailMovieImageView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:contentDescription="@string/movie_image_content_description"
-        android:src="@drawable/ic_launcher_background"
         app:layout_constraintBottom_toTopOf="@+id/movieDetailRatingView"
         app:layout_constraintEnd_toStartOf="@+id/movieDetailMovieTitleView"
         app:layout_constraintHorizontal_bias="0"
@@ -33,8 +33,13 @@
 
     <RatingBar
         android:id="@+id/movieDetailRatingView"
+        style="?android:attr/ratingBarStyleIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:max="5"
+        android:numStars="5"
+        android:stepSize="0.1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/movieDetailMovieTitleView"
         app:layout_constraintHorizontal_bias="0"

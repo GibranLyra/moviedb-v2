@@ -13,8 +13,8 @@ import com.gibranlyra.moviedbservice.movie.MovieDataSource
 import timber.log.Timber
 
 class MovieDetailViewModel(application: Application,
-                           private val movieDataSource: MovieDataSource,
                            configurationDataSource: ConfigurationDataSource,
+                           private val movieDataSource: MovieDataSource,
                            scheduler: BaseSchedulerProvider)
     : ConfigurationViewModel(application, configurationDataSource, scheduler) {
 
@@ -27,16 +27,14 @@ class MovieDetailViewModel(application: Application,
     internal fun loadMovieDetails(movieId: Int, images: Images) {
         subscriptions.add(movieDataSource.getMovie(movieId)
                 .subscribeOn(scheduler.io())
-                 .map { movie -> movie.buildImages(images) }
+                .map { movie -> movie.buildImages(images) }
                 .observeOn(scheduler.ui())
                 .doOnSubscribe { movieDetailsLive.value = Resource.loading(true) }
                 .doFinally { movieDetailsLive.value = Resource.loading(false) }
-                .subscribe({
-                    movieDetailsLive.value = Resource.success(it)
-                }, {
+                .subscribe({ movieDetailsLive.value = Resource.success(it) }, {
                     Timber.e(it, "loadMovieDetails: %s", it.message)
                     val callback = { loadMovieDetails(movieId, images) }
-                    movieDetailsLive.value = Resource.error(null, callback)
+                    movieDetailsLive.value = Resource.error("Erro genérico", callback)
                 }))
     }
 

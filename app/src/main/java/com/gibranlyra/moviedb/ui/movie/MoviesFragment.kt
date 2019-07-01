@@ -14,8 +14,8 @@ import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
 import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailFragment
-import com.gibranlyra.moviedb.util.ext.addFragment
 import com.gibranlyra.moviedb.util.ext.gone
+import com.gibranlyra.moviedb.util.ext.replaceFragment
 import com.gibranlyra.moviedb.util.ext.showSnackBar
 import com.gibranlyra.moviedb.util.ext.visible
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
@@ -40,7 +40,7 @@ class MoviesFragment : Fragment() {
     private val topRatedAdapter by lazy {
         MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.addFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout)
+                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
             }
         })
     }
@@ -48,7 +48,7 @@ class MoviesFragment : Fragment() {
     private val upcomingAdapter by lazy {
         MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.addFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout)
+                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
             }
         })
     }
@@ -56,7 +56,7 @@ class MoviesFragment : Fragment() {
     private val popularAdapter by lazy {
         MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.addFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout)
+                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
             }
         })
     }

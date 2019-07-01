@@ -51,7 +51,7 @@ object MovieRemoteDataSource : MovieDataSource {
     internal interface MovieService {
 
         @GET("movie/{movieId}")
-        fun getMovie(@Path("movieId") movieId: String): Single<Movie>
+        fun getMovie(@Path("movieId") movieId: Int): Single<Movie>
 
         @GET("discover/movie")
         fun discoverMovies(@Query("page") page: Int,

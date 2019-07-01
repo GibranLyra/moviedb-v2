@@ -8,6 +8,7 @@ fun ImageView.loadImage(url: String) {
     Glide.with(this)
             .load(url)
             .centerInside()
-            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.movie_placeholder)
+            .error(R.drawable.movie_placeholder)
             .into(this)
 }

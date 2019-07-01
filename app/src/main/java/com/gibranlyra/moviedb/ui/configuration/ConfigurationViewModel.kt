@@ -29,7 +29,7 @@ abstract class ConfigurationViewModel(application: Application,
                 }, {
                     Timber.e(it, "loadConfiguration: %s", it.message)
                     val callback = { loadConfiguration() }
-                    configurationLive.value = Resource.error(null, callback)
+                    configurationLive.value = Resource.error("Erro genérico", callback)
                 }))
     }
 

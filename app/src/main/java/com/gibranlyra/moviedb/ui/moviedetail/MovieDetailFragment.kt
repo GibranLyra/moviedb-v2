@@ -16,7 +16,6 @@ import com.gibranlyra.moviedb.util.ext.showSnackBar
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_movies.*
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
 const val EXTRA_MOVIE = "EXTRA_MOVIE"
@@ -49,10 +48,15 @@ class MovieDetailFragment : Fragment() {
         } ?: run {
             activity?.requiredBundleNotFound(EXTRA_MOVIE)
         }
+        initViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_movie_detail, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
 
     fun initViewModel() {
         with(viewModel) {
@@ -69,21 +73,21 @@ class MovieDetailFragment : Fragment() {
                 when (it.status) {
                     LOADING -> {
                         when (it.loading) {
-                            true -> movieDetailLoadingView.hide()
-                            false -> movieDetailLoadingView.show()
+                            true -> movieDetailLoadingView.show()
+                            false -> movieDetailLoadingView.hide()
                         }
                     }
 
                     SUCCESS -> {
                         movie = it.data!!
                         with(movie) {
-                            movieDetailMovieImageView.loadImage(backdropPath!!)
+                            movieDetailMovieImageView.loadImage(posterPath!!)
                             movieDetailMovieTitleView.text = originalTitle
                             movieDetailReleaseDateView.text = releaseDate
                             movieDetailReleaseStatusView.text = status
                             //TODO check length property
                             //movieDetailLengthView.text =
-                            movieDetailRatingView.numStars = movie.voteAverage!!.toInt()
+                            movieDetailRatingView.rating = movie.voteAverage?.toFloat()?.div(2) ?: 0f
                         }
                     }
                     ERROR -> showError(it.message!!, it.action!!)
@@ -95,6 +99,6 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun showError(message: String, action: () -> Unit) {
-        mainFragmentRootView.showSnackBar(message, Snackbar.LENGTH_LONG, getString(R.string.try_again), action)
+        movieDetailRootView.showSnackBar(message, Snackbar.LENGTH_LONG, getString(R.string.try_again), action)
     }
 }

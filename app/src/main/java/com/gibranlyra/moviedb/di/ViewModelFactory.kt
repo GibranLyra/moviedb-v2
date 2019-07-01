@@ -24,6 +24,7 @@ class ViewModelFactory private constructor(private val application: MyApp) :
 
                     isAssignableFrom(MovieDetailViewModel::class.java) ->
                         MovieDetailViewModel(application,
+                                Injection.provideConfigurationRepository(application),
                                 Injection.provideMovieRepository(application),
                                 SchedulerProvider)
 
