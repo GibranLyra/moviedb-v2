@@ -6,4 +6,6 @@
     <string name="movie_image_content_description">Movie Image</string>
     <string name="try_again">Tentar novamente</string>
     <string name="movie_image_content_description">Movie Image</string>
+    <string name="error_image_content_description">Error Image</string>
+    <string name="no_internet_connection">Sem conexão com a internet</string>
 </resources>

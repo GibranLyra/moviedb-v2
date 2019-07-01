@@ -10,15 +10,18 @@ import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
-import com.gibranlyra.moviedb.ui.component.movie.BaseAdapter
+import com.gibranlyra.moviedb.ui.component.BaseAdapter
+import com.gibranlyra.moviedb.ui.component.error.ErrorView
 import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter
+import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailFragment
+import com.gibranlyra.moviedb.util.ext.addFragment
 import com.gibranlyra.moviedb.util.ext.gone
 import com.gibranlyra.moviedb.util.ext.showSnackBar
 import com.gibranlyra.moviedb.util.ext.visible
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_movies.*
 
 class MoviesFragment : Fragment() {
     companion object {
@@ -36,19 +39,25 @@ class MoviesFragment : Fragment() {
 
     private val topRatedAdapter by lazy {
         MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
-            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {}
+            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
+                activity?.addFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout)
+            }
         })
     }
 
     private val upcomingAdapter by lazy {
         MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
-            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {}
+            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
+                activity?.addFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout)
+            }
         })
     }
 
     private val popularAdapter by lazy {
         MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
-            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {}
+            override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
+                activity?.addFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout)
+            }
         })
     }
 
@@ -58,13 +67,19 @@ class MoviesFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_main, container, false)
+            inflater.inflate(R.layout.fragment_movies, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainFragmentTopRatedRecyclerView.adapter = topRatedAdapter
-        mainFragmentUpcomingRecyclerView.adapter = upcomingAdapter
-        mainFragmentPopularRecyclerView.adapter = popularAdapter
+        moviesFragmentTopRatedRecyclerView.adapter = topRatedAdapter
+        moviesFragmentUpcomingRecyclerView.adapter = upcomingAdapter
+        moviesFragmentPopularRecyclerView.adapter = popularAdapter
+        moviesFragmentErrorView.initView(object : ErrorView.ErrorViewListener {
+            override fun onClick() {
+                showContent()
+                viewModel.start()
+            }
+        })
     }
 
     private fun initViewModel() {
@@ -72,11 +87,18 @@ class MoviesFragment : Fragment() {
             configurationLive.observe(this@MoviesFragment, Observer {
                 when (it.status) {
                     LOADING -> when (it.loading) {
-                        true -> mainFragmentLoading.visible()
-                        false -> mainFragmentLoading.gone()
+                        true -> showContent()
+                        false -> moviesFragmentLoading.gone()
                     }
-                    SUCCESS -> loadMovies(it.data!!)
-                    ERROR -> showError(it.message!!, it.action!!)
+                    SUCCESS -> {
+                        showTitleLabels()
+                        loadMovies(it.data!!)
+                    }
+                    ERROR -> {
+                        hideTitleLabels()
+                        showErrorView()
+                        showError(it.message!!, it.action!!)
+                    }
                 }
             })
 
@@ -84,12 +106,12 @@ class MoviesFragment : Fragment() {
                 when (it.status) {
                     LOADING -> when (it.loading) {
                         true -> {
-                            mainFragmentTopRatedLoading.show()
-                            mainFragmentTopRatedRecyclerView.gone()
+                            moviesFragmentTopRatedLoading.show()
+                            moviesFragmentTopRatedRecyclerView.gone()
                         }
                         false -> {
-                            mainFragmentTopRatedLoading.hide()
-                            mainFragmentTopRatedRecyclerView.visible()
+                            moviesFragmentTopRatedLoading.hide()
+                            moviesFragmentTopRatedRecyclerView.visible()
                         }
                     }
                     SUCCESS -> topRatedAdapter.add(it.data!!.toMutableList(), true)
@@ -101,12 +123,12 @@ class MoviesFragment : Fragment() {
                 when (it.status) {
                     LOADING -> when (it.loading) {
                         true -> {
-                            mainFragmentUpcomingLoading.show()
-                            mainFragmentUpcomingRecyclerView.gone()
+                            moviesFragmentUpcomingLoading.show()
+                            moviesFragmentUpcomingRecyclerView.gone()
                         }
                         false -> {
-                            mainFragmentUpcomingLoading.hide()
-                            mainFragmentUpcomingRecyclerView.visible()
+                            moviesFragmentUpcomingLoading.hide()
+                            moviesFragmentUpcomingRecyclerView.visible()
                         }
                     }
                     SUCCESS -> upcomingAdapter.add(it.data!!.toMutableList(), true)
@@ -118,12 +140,12 @@ class MoviesFragment : Fragment() {
                 when (it.status) {
                     LOADING -> when (it.loading) {
                         true -> {
-                            mainFragmentPopularLoading.show()
-                            mainFragmentPopularRecyclerView.gone()
+                            moviesFragmentPopularLoading.show()
+                            moviesFragmentPopularRecyclerView.gone()
                         }
                         false -> {
-                            mainFragmentPopularLoading.hide()
-                            mainFragmentPopularRecyclerView.visible()
+                            moviesFragmentPopularLoading.hide()
+                            moviesFragmentPopularRecyclerView.visible()
                         }
                     }
                     SUCCESS -> popularAdapter.add(it.data!!.toMutableList(), true)
@@ -136,6 +158,28 @@ class MoviesFragment : Fragment() {
     }
 
     private fun showError(message: String, action: () -> Unit) {
-        mainFragmentRootView.showSnackBar(message, Snackbar.LENGTH_LONG, getString(R.string.try_again), action)
+        moviesFragmentRootView.showSnackBar(message, Snackbar.LENGTH_LONG, getString(R.string.try_again), action)
+    }
+
+    private fun showErrorView() {
+        moviesFragmentLoading.gone()
+        moviesFragmentErrorView.visible()
+    }
+
+    private fun showContent() {
+        moviesFragmentLoading.visible()
+        moviesFragmentErrorView.gone()
+    }
+
+    private fun showTitleLabels() {
+        moviesFragmentPopularTextView.visible()
+        moviesFragmentTopRatedTextView.visible()
+        moviesFragmentUpcomingTextView.visible()
+    }
+
+    private fun hideTitleLabels() {
+        moviesFragmentPopularTextView.gone()
+        moviesFragmentTopRatedTextView.gone()
+        moviesFragmentUpcomingTextView.gone()
     }
 }

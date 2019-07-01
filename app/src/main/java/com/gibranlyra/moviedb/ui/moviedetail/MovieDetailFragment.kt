@@ -16,7 +16,7 @@ import com.gibranlyra.moviedb.util.ext.showSnackBar
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_movies.*
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
 const val EXTRA_MOVIE = "EXTRA_MOVIE"

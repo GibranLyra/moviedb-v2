@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainFragmentRootView"
+    android:id="@+id/moviesFragmentRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/mainFragmentLoading"
+            android:id="@+id/moviesFragmentLoading"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,107 +22,109 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/mainFragmentPopularTextView"
+            android:id="@+id/moviesFragmentPopularTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/popular_recycler_label"
-            app:layout_constraintBottom_toTopOf="@+id/mainFragmentPopularRecyclerView"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/moviesFragmentPopularRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"/>
 
         <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/mainFragmentPopularLoading"
+            android:id="@+id/moviesFragmentPopularLoading"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/mainFragmentPopularRecyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentPopularTextView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentPopularTextView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentPopularTextView"/>
+            app:layout_constraintBottom_toBottomOf="@id/moviesFragmentPopularRecyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentPopularTextView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentPopularTextView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentPopularTextView"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mainFragmentPopularRecyclerView"
+            android:id="@+id/moviesFragmentPopularRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:padding="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/mainFragmentTopRatedRecyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentPopularTextView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentPopularTextView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentPopularTextView"
+            app:layout_constraintBottom_toTopOf="@+id/moviesFragmentTopRatedRecyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentPopularTextView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentPopularTextView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentPopularTextView"
             tools:itemCount="4"
             tools:listitem="@layout/item_movie"/>
 
         <TextView
-            android:id="@+id/mainFragmentTopRatedTextView"
+            android:id="@+id/moviesFragmentTopRatedTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/top_rated_recycler_label"
-            app:layout_constraintBottom_toTopOf="@+id/mainFragmentTopRatedRecyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentPopularRecyclerView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentPopularRecyclerView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentPopularRecyclerView"/>
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/moviesFragmentTopRatedRecyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentPopularRecyclerView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentPopularRecyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentPopularRecyclerView"/>
 
         <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/mainFragmentTopRatedLoading"
+            android:id="@+id/moviesFragmentTopRatedLoading"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/mainFragmentTopRatedRecyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentTopRatedTextView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentTopRatedTextView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentTopRatedTextView"/>
+            app:layout_constraintBottom_toBottomOf="@+id/moviesFragmentTopRatedRecyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentTopRatedTextView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentTopRatedTextView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentTopRatedTextView"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mainFragmentTopRatedRecyclerView"
+            android:id="@+id/moviesFragmentTopRatedRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:orientation="horizontal"
             android:padding="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/mainFragmentUpcomingTextView"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentTopRatedTextView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentTopRatedTextView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentTopRatedTextView"
+            app:layout_constraintBottom_toTopOf="@+id/moviesFragmentUpcomingTextView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentTopRatedTextView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentTopRatedTextView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentTopRatedTextView"
             tools:itemCount="4"
             tools:listitem="@layout/item_movie"/>
 
         <TextView
-            android:id="@+id/mainFragmentUpcomingTextView"
+            android:id="@+id/moviesFragmentUpcomingTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/upcoming_recycler_label"
-            app:layout_constraintBottom_toTopOf="@+id/mainFragmentUpcomingRecyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentTopRatedRecyclerView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentTopRatedRecyclerView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentTopRatedRecyclerView"/>
+            app:layout_constraintBottom_toTopOf="@+id/moviesFragmentUpcomingRecyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentTopRatedRecyclerView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentTopRatedRecyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentTopRatedRecyclerView"/>
 
         <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/mainFragmentUpcomingLoading"
+            android:id="@+id/moviesFragmentUpcomingLoading"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/mainFragmentUpcomingRecyclerView"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentUpcomingTextView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentUpcomingTextView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentUpcomingTextView"/>
+            app:layout_constraintBottom_toBottomOf="@+id/moviesFragmentUpcomingRecyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentUpcomingTextView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentUpcomingTextView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentUpcomingTextView"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mainFragmentUpcomingRecyclerView"
+            android:id="@+id/moviesFragmentUpcomingRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
@@ -130,11 +132,19 @@
             android:padding="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/mainFragmentUpcomingTextView"
-            app:layout_constraintStart_toStartOf="@+id/mainFragmentUpcomingTextView"
-            app:layout_constraintTop_toBottomOf="@+id/mainFragmentUpcomingTextView"
+            app:layout_constraintEnd_toEndOf="@+id/moviesFragmentUpcomingTextView"
+            app:layout_constraintStart_toStartOf="@+id/moviesFragmentUpcomingTextView"
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentUpcomingTextView"
             tools:itemCount="4"
             tools:listitem="@layout/item_movie"/>
 
+        <com.gibranlyra.moviedb.ui.component.error.ErrorView
+            android:id="@+id/moviesFragmentErrorView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

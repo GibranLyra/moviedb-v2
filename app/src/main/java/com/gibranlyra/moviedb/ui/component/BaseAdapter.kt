@@ -1,12 +1,11 @@
-package com.gibranlyra.moviedb.ui.component.movie
+package com.gibranlyra.moviedb.ui.component
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.gibranlyra.moviedb.ui.component.movie.BaseAdapter.AdapterListener
 
 abstract class BaseAdapter<MODEL, VH : BaseAdapter.ViewHolder<MODEL>,
-        LISTENER : AdapterListener<MODEL>?>(val items: MutableList<MODEL>,
-                                            val listener: LISTENER?) : RecyclerView.Adapter<VH>() {
+        LISTENER : BaseAdapter.AdapterListener<MODEL>?>(val items: MutableList<MODEL>,
+                                                        val listener: LISTENER?) : RecyclerView.Adapter<VH>() {
 
     override fun getItemCount() = items.size
 

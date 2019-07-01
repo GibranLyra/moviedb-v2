@@ -11,8 +11,8 @@ fun Movie.buildImages(images: Images): Movie {
         } else {
             copy(posterPath = "${images.builPosterUrl()}$posterPath", backdropPath = "${images.builProfileUrl()}$backdropPath")
         }
-    } ?:run {
-        Timber.d("buildImages: $this")
+    } ?: run {
+        Timber.w("buildImages: PosterPath for movie ${this.title} is null.")
         return this@buildImages
     }
 }

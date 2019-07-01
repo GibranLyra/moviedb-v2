@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/errorViewImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/error_image_content_description"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/errorViewTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_internet_connection"
+        app:layout_constraintBottom_toTopOf="@+id/errorViewTryAgainButton"
+        app:layout_constraintEnd_toEndOf="@+id/errorViewImageView"
+        app:layout_constraintStart_toStartOf="@+id/errorViewImageView"
+        app:layout_constraintTop_toBottomOf="@+id/errorViewImageView"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintVertical_chainStyle="packed"/>
+
+    <Button
+        android:id="@+id/errorViewTryAgainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/try_again"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/errorViewTextView"
+        app:layout_constraintStart_toStartOf="@+id/errorViewTextView"
+        app:layout_constraintTop_toBottomOf="@+id/errorViewTextView"
+        app:layout_constraintVertical_bias="0"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
