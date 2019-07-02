@@ -34,7 +34,7 @@ class SearchViewModel(application: Application,
     }
 
     internal fun loadSearch(query: String) {
-        subscriptions.add(searchDataSource.search(1, query)
+        subscriptions.add(searchDataSource.search(query, 1)
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
                 .observeOn(scheduler.ui())

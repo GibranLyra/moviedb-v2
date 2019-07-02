@@ -33,7 +33,7 @@ class ViewModelFactory private constructor(private val application: MyApp) :
                     isAssignableFrom(SearchViewModel::class.java) ->
                         SearchViewModel(application,
                                 Injection.provideConfigurationRepository(application),
-                                Injection.provideSearchRepository(),
+                                Injection.provideSearchRepository(application),
                                 SchedulerProvider)
 
                     isAssignableFrom(CategoryViewModel::class.java) ->

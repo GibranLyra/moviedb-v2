@@ -28,6 +28,9 @@ interface MovieDao {
     @Query("SELECT * FROM movie WHERE id LIKE :id")
     fun findById(id: Int): Single<Movie>
 
+    @Query("SELECT * FROM movie WHERE title LIKE '%' || :title  || '%' ORDER BY  voteAverage DESC")
+    fun findByTitle(title: String): Single<List<Movie>>
+
     @Query("DELETE FROM movie WHERE id LIKE :id")
     fun deleteById(id: String): Completable
 
