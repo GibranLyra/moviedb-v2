@@ -20,8 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="Home"/>
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <com.gibranlyra.moviedb.ui.component.error.ErrorView
         android:id="@+id/categoryFragmentErrorView"

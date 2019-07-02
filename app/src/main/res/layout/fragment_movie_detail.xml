@@ -8,6 +8,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/fragmentMovieDetailToolbar"
+        style="@style/Widget.AppCompat.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        android:translationZ="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:title="Home"/>
+
+
     <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/movieDetailLoadingView"
         style="@style/Widget.AppCompat.ProgressBar"
@@ -20,14 +37,14 @@
 
     <ImageView
         android:id="@+id/movieDetailMovieImageView"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="200dp"
         android:contentDescription="@string/movie_image_content_description"
         app:layout_constraintBottom_toTopOf="@+id/movieDetailRatingView"
         app:layout_constraintEnd_toStartOf="@+id/movieDetailMovieTitleView"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentMovieDetailToolbar"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"/>
 
@@ -53,7 +70,7 @@
         app:layout_constraintBottom_toTopOf="@+id/movieDetailReleaseDateView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/movieDetailMovieImageView"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentMovieDetailToolbar"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Avengers"/>
