@@ -33,4 +33,8 @@ abstract class ConfigurationViewModel(application: Application,
                 }))
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        subscriptions.dispose()
+    }
 }

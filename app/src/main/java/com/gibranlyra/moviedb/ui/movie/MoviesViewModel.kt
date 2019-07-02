@@ -12,10 +12,10 @@ import com.gibranlyra.moviedbservice.model.Movie
 import com.gibranlyra.moviedbservice.movie.MovieDataSource
 import timber.log.Timber
 
-class MoviesViewModel(application: Application,
-                      configurationDataSource: ConfigurationDataSource,
-                      private val movieDataSource: MovieDataSource,
-                      scheduler: BaseSchedulerProvider)
+open class MoviesViewModel(application: Application,
+                           configurationDataSource: ConfigurationDataSource,
+                           private val movieDataSource: MovieDataSource,
+                           scheduler: BaseSchedulerProvider)
     : ConfigurationViewModel(application, configurationDataSource, scheduler) {
 
     val topRatedLive = MutableLiveData<Resource<List<Movie>>>()
@@ -26,13 +26,13 @@ class MoviesViewModel(application: Application,
         loadConfiguration()
     }
 
-    fun loadMovies(images: Images) {
+    open fun loadMovies(images: Images) {
         loadTopRated(images)
         loadUpcoming(images)
         loadPopular(images)
     }
 
-    private fun loadTopRated(images: Images) {
+    protected fun loadTopRated(images: Images) {
         subscriptions.add(movieDataSource.topRated()
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
@@ -52,7 +52,7 @@ class MoviesViewModel(application: Application,
                 }))
     }
 
-    private fun loadUpcoming(images: Images) {
+    protected fun loadUpcoming(images: Images) {
         subscriptions.add(movieDataSource.upcoming()
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
@@ -72,7 +72,7 @@ class MoviesViewModel(application: Application,
                 }))
     }
 
-    private fun loadPopular(images: Images) {
+    protected fun loadPopular(images: Images) {
         subscriptions.add(movieDataSource.popular()
                 .subscribeOn(scheduler.io())
                 .map { movies ->
@@ -92,10 +92,5 @@ class MoviesViewModel(application: Application,
                     Timber.e(it, "loadPopular: %s", it.message)
                     popularLive.value = Resource.error(null) { loadPopular(images) }
                 }))
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        subscriptions.dispose()
     }
 }

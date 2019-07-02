@@ -17,7 +17,7 @@ data class Movie(
         val isVideo: Boolean = false,
         val title: String? = null,
         val backdropPath: String? = null,
-        val revenue: Int? = null,
+        val revenue: Long? = null,
         @Embedded(prefix = "movie_genres")
         val genres: ArrayList<Genre>? = null,
         val popularity: Double? = null,

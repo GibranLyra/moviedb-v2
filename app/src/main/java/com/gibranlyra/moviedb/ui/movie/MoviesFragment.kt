@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -11,6 +12,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
+import com.gibranlyra.moviedb.ui.category.CategoryFragment
+import com.gibranlyra.moviedb.ui.category.CategoryViewModel
 import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
 import com.gibranlyra.moviedb.ui.component.movie.HorizontalMovieAdapter
@@ -74,9 +77,41 @@ class MoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        moviesFragmentTopRatedRecyclerView.adapter = topRatedAdapter
-        moviesFragmentUpcomingRecyclerView.adapter = upcomingAdapter
-        moviesFragmentPopularRecyclerView.adapter = popularAdapter
+        with(topRatedAdapter) {
+            moviesFragmentTopRatedRecyclerView.adapter = this
+            when (items.isNotEmpty()) {
+                true -> moviesFragmentTopRatedTextView.visible()
+                false -> moviesFragmentTopRatedTextView.gone()
+            }
+        }
+        moviesFragmentTopRatedTextView.setOnClickListener {
+            activity?.replaceFragment(CategoryFragment.newInstance(CategoryViewModel.Category.TOP_RATED), R.id.rootLayout, true)
+        }
+
+        with(upcomingAdapter) {
+            moviesFragmentUpcomingRecyclerView.adapter = this
+            when (items.isNotEmpty()) {
+                true -> moviesFragmentUpcomingTextView.visible()
+                false -> moviesFragmentUpcomingTextView.gone()
+            }
+        }
+
+        moviesFragmentUpcomingTextView.setOnClickListener {
+            activity?.replaceFragment(CategoryFragment.newInstance(CategoryViewModel.Category.UPCOMING), R.id.rootLayout, true)
+        }
+
+        with(popularAdapter) {
+            moviesFragmentPopularRecyclerView.adapter = this
+            when (items.isNotEmpty()) {
+                true -> moviesFragmentPopularTextView.visible()
+                false -> moviesFragmentPopularTextView.gone()
+            }
+        }
+
+        moviesFragmentPopularTextView.setOnClickListener {
+            activity?.replaceFragment(CategoryFragment.newInstance(CategoryViewModel.Category.POPULAR), R.id.rootLayout, true)
+        }
+
         moviesFragmentErrorView.initView(object : ErrorView.ErrorViewListener {
             override fun onClick() {
                 showContent()
@@ -84,18 +119,22 @@ class MoviesFragment : Fragment() {
             }
         })
 
-        moviesFragmentSearchBar.setOnQueryTextListener(object: Search.OnQueryTextListener {
+        moviesFragmentSearchBar.setOnQueryTextListener(object : Search.OnQueryTextListener {
             override fun onQueryTextSubmit(query: CharSequence?): Boolean {
                 activity?.replaceFragment(SearchFragment.newInstance(query.toString()), R.id.rootLayout, true)
                 return true
             }
 
             override fun onQueryTextChange(newText: CharSequence?) {
-               //DO Nothing
+                //DO Nothing
             }
         })
 
         activity?.findViewById<ImageView>(com.lapism.searchview.R.id.search_imageView_logo)?.setImageDrawable(null)
+        val searchEditText = activity?.findViewById<EditText>(com.lapism.searchview.R.id.search_searchEditText)
+        searchEditText?.hint = "Pesquisar"
+        searchEditText?.visible()
+
     }
 
     private fun initViewModel() {

@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/searchFragmentRootView"
+    android:id="@+id/categoryFragmentRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    >
 
     <com.gibranlyra.moviedb.ui.component.error.ErrorView
-        android:id="@+id/searchFragmentErrorView"
+        android:id="@+id/categoryFragmentErrorView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/searchFragmentLoading"
+        android:id="@+id/categoryFragmentLoading"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,30 +30,17 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchFragmentRecyclerView"
+        android:id="@+id/categoryFragmentRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toEndOf="@+id/searchFragmentSearchBar"
-        app:layout_constraintStart_toStartOf="@+id/searchFragmentSearchBar"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="4"
-        tools:listitem="@layout/item_movie_vertical"/>
-
-    <com.lapism.searchview.widget.SearchBar
-        android:id="@+id/searchFragmentSearchBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:search_logo="arrow"
-        app:search_shape="oval"
-        app:search_theme="light"
-        app:search_version="menu_item"/>
+        tools:itemCount="4"
+        tools:listitem="@layout/item_movie_vertical"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

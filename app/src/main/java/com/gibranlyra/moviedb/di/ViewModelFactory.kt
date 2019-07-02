@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import br.com.fastshop.ecommerce.refactor.util.schedulers.SchedulerProvider
 import com.gibranlyra.moviedb.MyApp
+import com.gibranlyra.moviedb.ui.category.CategoryViewModel
 import com.gibranlyra.moviedb.ui.movie.MoviesViewModel
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailViewModel
 import com.gibranlyra.moviedb.ui.search.SearchViewModel
@@ -33,6 +34,12 @@ class ViewModelFactory private constructor(private val application: MyApp) :
                         SearchViewModel(application,
                                 Injection.provideConfigurationRepository(application),
                                 Injection.provideSearchRepository(),
+                                SchedulerProvider)
+
+                    isAssignableFrom(CategoryViewModel::class.java) ->
+                        CategoryViewModel(application,
+                                Injection.provideConfigurationRepository(application),
+                                Injection.provideMovieRepository(application),
                                 SchedulerProvider)
 
                     else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
