@@ -9,6 +9,7 @@ import br.com.fastshop.ecommerce.refactor.util.schedulers.SchedulerProvider
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.ui.movie.MoviesViewModel
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailViewModel
+import com.gibranlyra.moviedb.ui.search.SearchViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory private constructor(private val application: MyApp) :
@@ -26,6 +27,12 @@ class ViewModelFactory private constructor(private val application: MyApp) :
                         MovieDetailViewModel(application,
                                 Injection.provideConfigurationRepository(application),
                                 Injection.provideMovieRepository(application),
+                                SchedulerProvider)
+
+                    isAssignableFrom(SearchViewModel::class.java) ->
+                        SearchViewModel(application,
+                                Injection.provideConfigurationRepository(application),
+                                Injection.provideSearchRepository(),
                                 SchedulerProvider)
 
                     else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

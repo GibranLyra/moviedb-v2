@@ -2,7 +2,6 @@ package com.gibranlyra.moviedbservice.search
 
 import com.gibranlyra.moviedbservice.MovieDbApiModule
 import com.gibranlyra.moviedbservice.model.Movie
-import com.gibranlyra.moviedbservice.movie.SearchDataSource
 import io.reactivex.Single
 import timber.log.Timber
 

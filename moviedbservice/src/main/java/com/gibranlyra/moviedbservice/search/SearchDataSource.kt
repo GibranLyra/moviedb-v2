@@ -1,4 +1,4 @@
-package com.gibranlyra.moviedbservice.movie
+package com.gibranlyra.moviedbservice.search
 
 import com.gibranlyra.moviedbservice.model.Movie
 import io.reactivex.Single

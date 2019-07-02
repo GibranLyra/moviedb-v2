@@ -14,6 +14,7 @@ import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
 import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailFragment
+import com.gibranlyra.moviedb.ui.search.SearchFragment
 import com.gibranlyra.moviedb.util.ext.gone
 import com.gibranlyra.moviedb.util.ext.replaceFragment
 import com.gibranlyra.moviedb.util.ext.showSnackBar
@@ -21,6 +22,7 @@ import com.gibranlyra.moviedb.util.ext.visible
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
+import com.lapism.searchview.Search
 import kotlinx.android.synthetic.main.fragment_movies.*
 
 class MoviesFragment : Fragment() {
@@ -79,6 +81,18 @@ class MoviesFragment : Fragment() {
                 showContent()
                 viewModel.start()
             }
+        })
+
+        moviesFragmentSearchBar.setOnQueryTextListener(object: Search.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: CharSequence?): Boolean {
+                activity?.replaceFragment(SearchFragment.newInstance(), R.id.rootLayout, true)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: CharSequence?) {
+               //DO Nothing
+            }
+
         })
     }
 

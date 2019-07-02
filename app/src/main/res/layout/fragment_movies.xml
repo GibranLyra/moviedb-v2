@@ -11,6 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.lapism.searchview.widget.SearchBar
+            android:id="@+id/moviesFragmentSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:search_logo="hamburger_arrow"
+            app:search_shape="oval"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:search_version="menu_item"/>
+
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/moviesFragmentLoading"
             style="@style/Widget.AppCompat.ProgressBar"
@@ -33,8 +46,7 @@
             app:layout_constraintBottom_toTopOf="@+id/moviesFragmentPopularRecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"/>
+            app:layout_constraintTop_toBottomOf="@+id/moviesFragmentSearchBar"/>
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/moviesFragmentPopularLoading"
@@ -60,7 +72,7 @@
             app:layout_constraintStart_toStartOf="@+id/moviesFragmentPopularTextView"
             app:layout_constraintTop_toBottomOf="@+id/moviesFragmentPopularTextView"
             tools:itemCount="4"
-            tools:listitem="@layout/item_movie"/>
+            tools:listitem="@layout/item_movie_vertical"/>
 
         <TextView
             android:id="@+id/moviesFragmentTopRatedTextView"
@@ -99,7 +111,7 @@
             app:layout_constraintStart_toStartOf="@+id/moviesFragmentTopRatedTextView"
             app:layout_constraintTop_toBottomOf="@+id/moviesFragmentTopRatedTextView"
             tools:itemCount="4"
-            tools:listitem="@layout/item_movie"/>
+            tools:listitem="@layout/item_movie_vertical"/>
 
         <TextView
             android:id="@+id/moviesFragmentUpcomingTextView"
@@ -137,7 +149,7 @@
             app:layout_constraintStart_toStartOf="@+id/moviesFragmentUpcomingTextView"
             app:layout_constraintTop_toBottomOf="@+id/moviesFragmentUpcomingTextView"
             tools:itemCount="4"
-            tools:listitem="@layout/item_movie"/>
+            tools:listitem="@layout/item_movie_vertical"/>
 
         <com.gibranlyra.moviedb.ui.component.error.ErrorView
             android:id="@+id/moviesFragmentErrorView"

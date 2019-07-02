@@ -9,6 +9,7 @@ import com.gibranlyra.moviedbservice.db.movie.MovieDataBase
 import com.gibranlyra.moviedbservice.movie.MovieRepository
 import com.gibranlyra.moviedbservice.movie.local.MovieLocalDataSource
 import com.gibranlyra.moviedbservice.movie.remote.MovieRemoteDataSource
+import com.gibranlyra.moviedbservice.search.SearchApi
 
 object Injection {
     fun provideConfigurationRepository(context: Context): ConfigurationRepository {
@@ -19,6 +20,10 @@ object Injection {
     fun provideMovieRepository(context: Context): MovieRepository {
         val database = MovieDataBase.getInstance(context)
         return MovieRepository.getInstance(MovieRemoteDataSource, MovieLocalDataSource.getInstance(database))
+    }
+
+    fun provideSearchRepository(): SearchApi {
+        return SearchApi
     }
 
 }
