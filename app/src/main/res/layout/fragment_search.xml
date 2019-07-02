@@ -8,20 +8,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.lapism.searchview.widget.SearchBar
-        android:id="@+id/searchFragmentSearchBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:search_logo="arrow"
-        app:search_theme="light"
-        app:search_shape="oval"
-        app:search_version="menu_item"/>
-
     <com.gibranlyra.moviedb.ui.component.error.ErrorView
         android:id="@+id/searchFragmentErrorView"
         android:layout_width="match_parent"
@@ -52,9 +38,22 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="@+id/searchFragmentSearchBar"
         app:layout_constraintStart_toStartOf="@+id/searchFragmentSearchBar"
-        app:layout_constraintTop_toBottomOf="@+id/searchFragmentSearchBar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:itemCount="4"
         tools:listitem="@layout/item_movie_horizontal"/>
 
+    <com.lapism.searchview.widget.SearchBar
+        android:id="@+id/searchFragmentSearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:search_logo="arrow"
+        app:search_shape="oval"
+        app:search_theme="light"
+        app:search_version="menu_item"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
