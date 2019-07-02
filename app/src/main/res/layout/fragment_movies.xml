@@ -16,12 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:search_logo="hamburger_arrow"
-            app:search_shape="oval"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0"
+            app:search_logo="google"
+            app:search_shape="oval"
             app:search_version="menu_item"/>
 
         <androidx.core.widget.ContentLoadingProgressBar

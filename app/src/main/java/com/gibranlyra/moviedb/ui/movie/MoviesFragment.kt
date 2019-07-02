@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -92,8 +93,9 @@ class MoviesFragment : Fragment() {
             override fun onQueryTextChange(newText: CharSequence?) {
                //DO Nothing
             }
-
         })
+
+        activity?.findViewById<ImageView>(com.lapism.searchview.R.id.search_imageView_logo)?.setImageDrawable(null)
     }
 
     private fun initViewModel() {
