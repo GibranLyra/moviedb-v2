@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movieItemHorizontalRootView"
-    android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_width="100dp"
+    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,13 +18,12 @@
 
         <ImageView
             android:id="@+id/movieItemHorizontalImageView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="148dp"
             android:contentDescription="@string/movie_image_content_description"
             android:src="@drawable/movie_placeholder"
             app:layout_constraintBottom_toTopOf="@+id/movieItemHorizontalTitleView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -33,11 +32,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:maxLines="2"
             android:paddingBottom="4dp"
-            android:textAlignment="textStart"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/movieItemHorizontalImageView"
             app:layout_constraintStart_toStartOf="@+id/movieItemHorizontalImageView"

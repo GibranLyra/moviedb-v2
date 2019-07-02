@@ -5,12 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.ui.component.BaseAdapter
-import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter.ViewHolder
 import com.gibranlyra.moviedb.util.ext.loadImage
 import com.gibranlyra.moviedbservice.model.Movie
 import kotlinx.android.synthetic.main.item_movie_vertical.view.*
 
-class MovieAdapter(items: MutableList<Movie>, listener: AdapterListener<Movie>) : BaseAdapter<Movie, ViewHolder,
+class VerticalMovieAdapter(items: MutableList<Movie>, listener: AdapterListener<Movie>) : BaseAdapter<Movie, VerticalMovieAdapter.ViewHolder,
         BaseAdapter.AdapterListener<Movie>>(items, listener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -26,7 +25,7 @@ class MovieAdapter(items: MutableList<Movie>, listener: AdapterListener<Movie>) 
     inner class ViewHolder(itemView: View) : BaseAdapter.ViewHolder<Movie>(itemView) {
         override fun bind(item: Movie) {
             with(itemView) {
-                movieItemVerticalImageView.loadImage(item.posterPath ?: "")
+                movieItemVerticalImageView.loadImage(item.backdropPath ?: "")
                 movieItemVerticalTitleView.text = item.originalTitle!!
             }
         }

@@ -2,6 +2,6 @@ package com.gibranlyra.moviedb.util.ext
 
 import com.gibranlyra.moviedbservice.model.Images
 
-fun Images.builPosterUrl() = "$baseUrl${posterSizes?.get(3)}"
+fun Images.buildPosterUrl() = "$baseUrl${posterSizes?.get(3)}"
 
-fun Images.builProfileUrl() = "$baseUrl${logoSizes?.get(1)}"
+fun Images.buildProfileUrl() = "$baseUrl${logoSizes?.get(3)}"

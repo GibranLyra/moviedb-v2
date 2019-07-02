@@ -38,7 +38,6 @@ class MovieDetailFragment : Fragment() {
                 .get(MovieDetailViewModel::class.java)
     }
 
-
     private lateinit var movie: Movie
 
     override fun onCreate(savedInstanceState: Bundle?) {

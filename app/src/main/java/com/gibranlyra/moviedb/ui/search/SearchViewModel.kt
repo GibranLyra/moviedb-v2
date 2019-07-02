@@ -20,15 +20,20 @@ class SearchViewModel(application: Application,
 
     val searchLive = MutableLiveData<Resource<List<Movie>>>()
 
-    fun start() {
+    lateinit var images: Images
+
+    internal fun start() {
         loadConfiguration()
     }
 
-    fun loadMovies(images: Images, query: String) {
-        loadSearch(images, query)
+    internal fun loadMovies(query: String, images: Images? = null) {
+        images?.let {
+            this.images = it
+        }
+        loadSearch(query)
     }
 
-    private fun loadSearch(images: Images, query: String) {
+    internal fun loadSearch(query: String) {
         subscriptions.add(searchDataSource.search(1, query)
                 .subscribeOn(scheduler.io())
                 .map { it.map { movie -> movie.buildImages(images) } }
@@ -39,7 +44,7 @@ class SearchViewModel(application: Application,
                     searchLive.value = Resource.success(it)
                 }, {
                     Timber.e(it, "loadSearch: %s", it.message)
-                    searchLive.value = Resource.error(null) { loadSearch(images, query) }
+                    searchLive.value = Resource.error(null) { loadSearch(query) }
                 }))
     }
 

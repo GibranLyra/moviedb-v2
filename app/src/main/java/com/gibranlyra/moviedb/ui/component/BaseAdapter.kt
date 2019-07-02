@@ -14,15 +14,13 @@ abstract class BaseAdapter<MODEL, VH : BaseAdapter.ViewHolder<MODEL>,
     }
 
     open fun add(items: MutableList<MODEL>, firstPage: Boolean = false) {
-        val size = this.items.size
-        val newSize = size + items.size
         with(this.items) {
             if (firstPage) {
                 clear()
             }
             addAll(items)
         }
-        notifyItemRangeChanged(size, newSize)
+        notifyDataSetChanged()
     }
 
     abstract class ViewHolder<MODEL>(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -12,23 +12,26 @@ import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
 import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
-import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter
+import com.gibranlyra.moviedb.ui.component.movie.VerticalMovieAdapter
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailFragment
-import com.gibranlyra.moviedb.util.ext.gone
-import com.gibranlyra.moviedb.util.ext.replaceFragment
-import com.gibranlyra.moviedb.util.ext.showSnackBar
-import com.gibranlyra.moviedb.util.ext.visible
+import com.gibranlyra.moviedb.util.ext.*
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
 import com.lapism.searchview.Search
 import kotlinx.android.synthetic.main.fragment_search.*
 
+const val EXTRA_QUERY = "EXTRA_QUERY"
+
 class SearchFragment : Fragment() {
     companion object {
         @JvmStatic
-        fun newInstance(): SearchFragment {
-            return SearchFragment()
+        fun newInstance(query: String): SearchFragment {
+            val fragment = SearchFragment()
+            fragment.arguments = Bundle().apply {
+                putString(EXTRA_QUERY, query)
+            }
+            return fragment
         }
     }
 
@@ -39,15 +42,21 @@ class SearchFragment : Fragment() {
     }
 
     private val searchAdapter by lazy {
-        MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
+        VerticalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
                 activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
             }
         })
     }
 
+    private lateinit var query: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.getString(EXTRA_QUERY)?.let {
+            query = it
+        } ?: run { activity?.requiredBundleNotFound(EXTRA_QUERY) }
+
         initViewModel()
     }
 
@@ -65,17 +74,22 @@ class SearchFragment : Fragment() {
             }
         })
 
-        searchFragmentSearchBar.setOnQueryTextListener(object : Search.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: CharSequence?): Boolean {
+        searchFragmentSearchBar.apply {
+            setOnQueryTextListener(object : Search.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: CharSequence?): Boolean {
+                    viewModel.loadSearch(query.toString())
+                    setQuery(query.toString(), false)
+                    return true
+                }
 
-                return true
-            }
+                override fun onQueryTextChange(newText: CharSequence?) {
+                    //DO Nothing
+                }
+            })
 
-            override fun onQueryTextChange(newText: CharSequence?) {
-                //DO Nothing
-            }
-
-        })
+            setOnMenuClickListener { activity?.onBackPressed() }
+            setQuery(query, false)
+        }
     }
 
     private fun initViewModel() {
@@ -89,7 +103,7 @@ class SearchFragment : Fragment() {
                         }
                     }
                     SUCCESS -> {
-                        loadMovies(it.data!!, "Homem Aranha")
+                        loadMovies(query, it.data!!)
                     }
                     ERROR -> {
                         showErrorView()
@@ -97,7 +111,6 @@ class SearchFragment : Fragment() {
                     }
                 }
             })
-
 
             searchLive.observe(this@SearchFragment, Observer {
                 when (it.status) {

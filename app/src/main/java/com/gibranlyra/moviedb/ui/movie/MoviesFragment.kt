@@ -12,7 +12,7 @@ import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
 import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
-import com.gibranlyra.moviedb.ui.component.movie.MovieAdapter
+import com.gibranlyra.moviedb.ui.component.movie.HorizontalMovieAdapter
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailFragment
 import com.gibranlyra.moviedb.ui.search.SearchFragment
 import com.gibranlyra.moviedb.util.ext.gone
@@ -40,7 +40,7 @@ class MoviesFragment : Fragment() {
     }
 
     private val topRatedAdapter by lazy {
-        MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
+        HorizontalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
                 activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
             }
@@ -48,7 +48,7 @@ class MoviesFragment : Fragment() {
     }
 
     private val upcomingAdapter by lazy {
-        MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
+        HorizontalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
                 activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
             }
@@ -56,7 +56,7 @@ class MoviesFragment : Fragment() {
     }
 
     private val popularAdapter by lazy {
-        MovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
+        HorizontalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
                 activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
             }
@@ -85,7 +85,7 @@ class MoviesFragment : Fragment() {
 
         moviesFragmentSearchBar.setOnQueryTextListener(object: Search.OnQueryTextListener {
             override fun onQueryTextSubmit(query: CharSequence?): Boolean {
-                activity?.replaceFragment(SearchFragment.newInstance(), R.id.rootLayout, true)
+                activity?.replaceFragment(SearchFragment.newInstance(query.toString()), R.id.rootLayout, true)
                 return true
             }
 
