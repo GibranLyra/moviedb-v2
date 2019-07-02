@@ -5,19 +5,21 @@ import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import timber.log.Timber
 
 
 fun FragmentActivity.replaceFragment(fragment: Fragment, frameId: Int, addToBackStack: Boolean = false) {
     supportFragmentManager.beginTransaction().apply {
-        setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right,
+                android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+        setTransition(TRANSIT_FRAGMENT_FADE)
         replace(frameId, fragment)
         setPrimaryNavigationFragment(fragment)
         if (addToBackStack) {
             addToBackStack(fragment.javaClass.simpleName)
         }
     }.commitAllowingStateLoss()
-
 }
 
 fun AppCompatActivity.addFragment(fragment: Fragment, @IdRes containerViewId: Int) {
