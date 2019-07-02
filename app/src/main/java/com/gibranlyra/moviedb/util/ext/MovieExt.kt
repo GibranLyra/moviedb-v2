@@ -9,7 +9,8 @@ fun Movie.buildImages(images: Images): Movie {
         return if (posterPath!!.startsWith("http")) {
             this
         } else {
-            copy(posterPath = "${images.buildPosterUrl()}$posterPath", backdropPath = "${images.buildProfileUrl()}$backdropPath")
+            copy(posterPath = "${images.buildPosterUrl()}$posterPath",
+                    backdropPath = "${images.buildProfileUrl()}$backdropPath")
         }
     } ?: run {
         Timber.w("buildImages: PosterPath for movie ${this.title} is null.")

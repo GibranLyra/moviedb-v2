@@ -127,7 +127,10 @@ class SearchFragment : Fragment() {
                     SUCCESS -> {
                         searchAdapter.add(it.data!!.toMutableList(), true)
                     }
-                    ERROR -> showError(it.message!!, it.action!!)
+                    ERROR -> {
+                        showErrorView()
+                        showError(it.message!!, it.action!!)
+                    }
                 }
             })
 

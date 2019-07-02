@@ -44,7 +44,7 @@ class SearchViewModel(application: Application,
                     searchLive.value = Resource.success(it)
                 }, {
                     Timber.e(it, "loadSearch: %s", it.message)
-                    searchLive.value = Resource.error(null) { loadSearch(query) }
+                    searchLive.value = Resource.error("Erro genérico") { loadSearch(query) }
                 }))
     }
 

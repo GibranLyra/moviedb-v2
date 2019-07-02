@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/movieItemVerticalRootView"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="250dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
@@ -13,12 +13,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="240dp">
 
         <ImageView
             android:id="@+id/movieItemVerticalImageView"
             android:layout_width="match_parent"
-            android:layout_height="148dp"
+            android:layout_height="222dp"
             android:contentDescription="@string/movie_image_content_description"
             android:src="@drawable/movie_placeholder"
             app:layout_constraintBottom_toTopOf="@+id/movieItemVerticalTitleView"
