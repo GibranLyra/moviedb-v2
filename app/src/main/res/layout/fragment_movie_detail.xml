@@ -30,13 +30,14 @@
 
     <ImageView
         android:id="@+id/movieDetailMovieImageView"
-        android:layout_width="140dp"
-        android:layout_height="200dp"
+        android:layout_width="168dp"
+        android:layout_height="248dp"
         android:contentDescription="@string/movie_image_content_description"
         app:layout_constraintBottom_toTopOf="@+id/movieDetailRatingView"
         app:layout_constraintEnd_toStartOf="@+id/movieDetailMovieTitleView"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/movie_placeholder"
         app:layout_constraintTop_toBottomOf="@+id/fragmentMovieDetailToolbar"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintVertical_chainStyle="packed"/>
@@ -59,6 +60,7 @@
     <TextView
         android:id="@+id/movieDetailMovieTitleView"
         android:layout_width="0dp"
+        android:textSize="@dimen/large_text"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/movieDetailReleaseDateView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -120,6 +122,8 @@
         android:id="@+id/movieDetailHomePageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/medium_text"
+        android:autoLink="web"
         app:layout_constraintBottom_toTopOf="@+id/movieDetailDescription"
         app:layout_constraintEnd_toEndOf="@+id/movieDetailRatingView"
         app:layout_constraintStart_toStartOf="@+id/movieDetailRatingView"
