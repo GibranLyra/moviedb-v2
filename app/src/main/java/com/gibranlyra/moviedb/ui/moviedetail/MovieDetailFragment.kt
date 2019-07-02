@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
+import com.gibranlyra.moviedb.util.DateUtil
 import com.gibranlyra.moviedb.util.ext.loadImage
 import com.gibranlyra.moviedb.util.ext.requiredBundleNotFound
 import com.gibranlyra.moviedb.util.ext.showSnackBar
@@ -56,12 +57,14 @@ class MovieDetailFragment : Fragment() {
         view.findViewById<Toolbar>(R.id.fragmentMovieDetailToolbar).run {
             setNavigationIcon(R.drawable.ic_arrow_back)
             setNavigationOnClickListener { activity?.onBackPressed() }
+            title = movie.title
         }
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showInitialMovieInfo()
     }
 
     fun initViewModel() {
@@ -86,21 +89,33 @@ class MovieDetailFragment : Fragment() {
 
                     SUCCESS -> {
                         movie = it.data!!
-                        with(movie) {
-                            movieDetailMovieImageView.loadImage(posterPath!!)
-                            movieDetailMovieTitleView.text = originalTitle
-                            movieDetailReleaseDateView.text = releaseDate
-                            movieDetailReleaseStatusView.text = status
-                            //TODO check length property
-                            //movieDetailLengthView.text =
-                            movieDetailRatingView.rating = movie.voteAverage?.toFloat()?.div(2) ?: 0f
-                        }
+                        showDetailedInfo()
                     }
                     ERROR -> showError(it.message!!, it.action!!)
                 }
             })
 
             start()
+        }
+    }
+
+    private fun showInitialMovieInfo() {
+        with(movie) {
+            movieDetailMovieImageView.loadImage(posterPath!!)
+            movieDetailMovieTitleView.text = originalTitle
+            movieDetailReleaseDateView.text = releaseDate?.let { DateUtil.convertToFriendlyDate(it) }
+            movieDetailRatingView.rating = movie.voteAverage?.toFloat()?.div(2) ?: 0f
+        }
+    }
+
+    private fun showDetailedInfo() {
+        with(movie) {
+            movieDetailLengthView.text = context?.getString(R.string.movie_length, runtime)
+            movieDetailLanguageView.text = originalLanguage
+            movieDetailReleaseStatusView.text = status
+            movieDetailLanguageView.text = originalLanguage
+            movieDetailHomePageView.text = homepage
+            movieDetailDescription.text = overview
         }
     }
 
