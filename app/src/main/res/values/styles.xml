@@ -12,6 +12,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="AppTheme.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:translationZ">8dp</item>
+    </style>
+
+
+
     <style name="ClickableTextView">
         <item name="android:textSize">@dimen/medium_text</item>
         <item name="android:padding">@dimen/medium_padding</item>
