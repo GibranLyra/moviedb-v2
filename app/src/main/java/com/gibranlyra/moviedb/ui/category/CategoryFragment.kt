@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +21,7 @@ import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_category.*
+
 
 const val EXTRA_CATEGORY = "EXTRA_CATEGORY"
 
@@ -57,12 +59,18 @@ class CategoryFragment : Fragment() {
         arguments?.getSerializable(EXTRA_CATEGORY)?.let {
             category = it as CategoryViewModel.Category
         } ?: run { activity?.requiredBundleNotFound(EXTRA_CATEGORY) }
-
         initViewModel()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.fragment_category, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_category, container, false)
+        view.findViewById<Toolbar>(R.id.fragmentCategoryToolbar).run {
+            title = category.name.toLowerCase().capitalize()
+            setNavigationIcon(R.drawable.ic_arrow_back)
+            setNavigationOnClickListener { activity?.onBackPressed() }
+        }
+        return view
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
