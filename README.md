@@ -38,6 +38,10 @@ All bussiness logic are under the viewModel classes
 ##### Qué características tiene, según su opinión, un “buen” código o código limpio? 
 - R: Low coupling, high coesion, a strong guideline and code as documentation.
 
+## What I would change
+- I would add genres and some more information to details screen, figure out why I was having problemas with room and Rxjava in mockito(Unit Tests) and add some Instrumentation tests.
+- I would use android navigation components that is still in alpha 
+
 License
 ==========
 
