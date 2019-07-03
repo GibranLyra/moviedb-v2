@@ -34,8 +34,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:padding="8dp"
+        android:paddingStart="@dimen/medium_padding"
+        android:paddingTop="60dp"
+        android:paddingEnd="@dimen/medium_padding"
+        android:paddingBottom="@dimen/medium_padding"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/searchFragmentSearchBar"
         app:layout_constraintStart_toStartOf="@+id/searchFragmentSearchBar"
         app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +57,6 @@
         app:layout_constraintVertical_bias="0"
         app:search_logo="arrow"
         app:search_shape="oval"
-        app:search_theme="light"
-        app:search_version="menu_item"/>
+        app:search_theme="light"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

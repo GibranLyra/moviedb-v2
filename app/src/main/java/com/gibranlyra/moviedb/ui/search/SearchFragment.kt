@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +15,10 @@ import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
 import com.gibranlyra.moviedb.ui.component.movie.VerticalMovieAdapter
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailFragment
-import com.gibranlyra.moviedb.util.ext.*
+import com.gibranlyra.moviedb.util.ext.gone
+import com.gibranlyra.moviedb.util.ext.requiredBundleNotFound
+import com.gibranlyra.moviedb.util.ext.showSnackBar
+import com.gibranlyra.moviedb.util.ext.visible
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
 import com.google.android.material.snackbar.Snackbar
@@ -44,7 +48,8 @@ class SearchFragment : Fragment() {
     private val searchAdapter by lazy {
         VerticalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
+                MovieDetailFragment.newInstance(item)
+                        .show(childFragmentManager, tag)
             }
         })
     }
@@ -87,9 +92,10 @@ class SearchFragment : Fragment() {
                 }
             })
 
-            setOnMenuClickListener { activity?.onBackPressed() }
             setQuery(query, false)
         }
+
+        activity?.findViewById<ImageView>(com.lapism.searchview.R.id.search_imageView_logo)?.setImageDrawable(null)
     }
 
     private fun initViewModel() {
