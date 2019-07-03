@@ -10,19 +10,19 @@ import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
+import com.gibranlyra.moviedb.ui.base.BaseBottomSheetDialog
 import com.gibranlyra.moviedb.util.DateUtil
 import com.gibranlyra.moviedb.util.ext.loadImage
 import com.gibranlyra.moviedb.util.ext.requiredBundleNotFound
 import com.gibranlyra.moviedb.util.ext.showSnackBar
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
 const val EXTRA_MOVIE = "EXTRA_MOVIE"
 
-class MovieDetailFragment : BottomSheetDialogFragment() {
+class MovieDetailFragment : BaseBottomSheetDialog() {
     companion object {
         @JvmStatic
         fun newInstance(movie: Movie): MovieDetailFragment {
@@ -49,15 +49,20 @@ class MovieDetailFragment : BottomSheetDialogFragment() {
         } ?: run {
             activity?.requiredBundleNotFound(EXTRA_MOVIE)
         }
-        setStyle(STYLE_NORMAL, R.style.SheetDialog)
         initViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_movie_detail, container, false)
         view.findViewById<Toolbar>(R.id.fragmentMovieDetailToolbar).run {
-            setNavigationIcon(R.drawable.ic_arrow_back)
-            setNavigationOnClickListener { activity?.onBackPressed() }
+            setNavigationIcon(R.drawable.ic_arrow_downward)
+            setNavigationOnClickListener { dismiss() }
+
+            navigationContentDescription = "Back Button"
+            val outViews = arrayListOf<View>()
+            findViewsWithText(outViews, "Back Button", View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
+            backButton = outViews.first()
+
             title = movie.title
         }
         return view

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
 import com.gibranlyra.moviedb.R
 import com.gibranlyra.moviedb.di.ViewModelFactory
+import com.gibranlyra.moviedb.ui.base.BaseBottomSheetDialog
 import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
 import com.gibranlyra.moviedb.ui.component.movie.VerticalMovieAdapter
@@ -21,14 +22,13 @@ import com.gibranlyra.moviedb.util.ext.visible
 import com.gibranlyra.moviedb.util.resource.Resource
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_category.*
 
 
 const val EXTRA_CATEGORY = "EXTRA_CATEGORY"
 
-class CategoryFragment : BottomSheetDialogFragment() {
+class CategoryFragment : BaseBottomSheetDialog() {
 
     companion object {
         @JvmStatic
@@ -63,7 +63,6 @@ class CategoryFragment : BottomSheetDialogFragment() {
         arguments?.getSerializable(EXTRA_CATEGORY)?.let {
             category = it as CategoryViewModel.Category
         } ?: run { activity?.requiredBundleNotFound(EXTRA_CATEGORY) }
-        setStyle(STYLE_NORMAL, R.style.SheetDialog)
         initViewModel()
     }
 
@@ -71,8 +70,12 @@ class CategoryFragment : BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.fragment_category, container, false)
         view.findViewById<Toolbar>(R.id.fragmentCategoryToolbar).run {
             title = category.name.toLowerCase().capitalize()
-            setNavigationIcon(R.drawable.ic_arrow_back)
-            setNavigationOnClickListener { activity?.onBackPressed() }
+            setNavigationIcon(R.drawable.ic_arrow_downward)
+            setNavigationOnClickListener { dismiss() }
+            navigationContentDescription = "Back Button"
+            val outViews = arrayListOf<View>()
+            findViewsWithText(outViews, "Back Button", View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
+            backButton = outViews.first()
         }
         return view
     }
