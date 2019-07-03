@@ -46,7 +46,8 @@ class MoviesFragment : Fragment() {
     private val topRatedAdapter by lazy {
         HorizontalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
+                MovieDetailFragment.newInstance(item)
+                        .show(childFragmentManager, tag)
             }
         })
     }
@@ -54,7 +55,8 @@ class MoviesFragment : Fragment() {
     private val upcomingAdapter by lazy {
         HorizontalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
+                MovieDetailFragment.newInstance(item)
+                        .show(childFragmentManager, tag)
             }
         })
     }
@@ -62,7 +64,8 @@ class MoviesFragment : Fragment() {
     private val popularAdapter by lazy {
         HorizontalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
+                MovieDetailFragment.newInstance(item)
+                        .show(childFragmentManager, tag)
             }
         })
     }
@@ -77,6 +80,7 @@ class MoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         with(topRatedAdapter) {
             moviesFragmentTopRatedRecyclerView.adapter = this
             when (items.isNotEmpty()) {

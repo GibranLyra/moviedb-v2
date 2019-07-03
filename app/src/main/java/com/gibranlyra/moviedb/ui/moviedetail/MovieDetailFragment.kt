@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
@@ -17,12 +16,13 @@ import com.gibranlyra.moviedb.util.ext.requiredBundleNotFound
 import com.gibranlyra.moviedb.util.ext.showSnackBar
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_movie_detail.*
 
 const val EXTRA_MOVIE = "EXTRA_MOVIE"
 
-class MovieDetailFragment : Fragment() {
+class MovieDetailFragment : BottomSheetDialogFragment() {
     companion object {
         @JvmStatic
         fun newInstance(movie: Movie): MovieDetailFragment {
@@ -49,6 +49,7 @@ class MovieDetailFragment : Fragment() {
         } ?: run {
             activity?.requiredBundleNotFound(EXTRA_MOVIE)
         }
+        setStyle(STYLE_NORMAL, R.style.SheetDialog)
         initViewModel()
     }
 
