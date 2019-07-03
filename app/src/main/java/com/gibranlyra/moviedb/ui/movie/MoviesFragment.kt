@@ -89,7 +89,8 @@ class MoviesFragment : Fragment() {
             }
         }
         moviesFragmentTopRatedTextView.setOnClickListener {
-            activity?.replaceFragment(CategoryFragment.newInstance(CategoryViewModel.Category.TOP_RATED), R.id.rootLayout, true)
+            CategoryFragment.newInstance(CategoryViewModel.Category.TOP_RATED)
+                    .show(childFragmentManager, tag)
         }
 
         with(upcomingAdapter) {
@@ -101,7 +102,8 @@ class MoviesFragment : Fragment() {
         }
 
         moviesFragmentUpcomingTextView.setOnClickListener {
-            activity?.replaceFragment(CategoryFragment.newInstance(CategoryViewModel.Category.UPCOMING), R.id.rootLayout, true)
+            CategoryFragment.newInstance(CategoryViewModel.Category.UPCOMING)
+                    .show(childFragmentManager, tag)
         }
 
         with(popularAdapter) {
@@ -113,7 +115,8 @@ class MoviesFragment : Fragment() {
         }
 
         moviesFragmentPopularTextView.setOnClickListener {
-            activity?.replaceFragment(CategoryFragment.newInstance(CategoryViewModel.Category.POPULAR), R.id.rootLayout, true)
+            CategoryFragment.newInstance(CategoryViewModel.Category.POPULAR)
+                    .show(childFragmentManager, tag)
         }
 
         moviesFragmentErrorView.initView(object : ErrorView.ErrorViewListener {

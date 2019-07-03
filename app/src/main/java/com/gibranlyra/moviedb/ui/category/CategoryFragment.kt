@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.gibranlyra.moviedb.MyApp
@@ -15,17 +14,21 @@ import com.gibranlyra.moviedb.ui.component.BaseAdapter
 import com.gibranlyra.moviedb.ui.component.error.ErrorView
 import com.gibranlyra.moviedb.ui.component.movie.VerticalMovieAdapter
 import com.gibranlyra.moviedb.ui.moviedetail.MovieDetailFragment
-import com.gibranlyra.moviedb.util.ext.*
+import com.gibranlyra.moviedb.util.ext.gone
+import com.gibranlyra.moviedb.util.ext.requiredBundleNotFound
+import com.gibranlyra.moviedb.util.ext.showSnackBar
+import com.gibranlyra.moviedb.util.ext.visible
 import com.gibranlyra.moviedb.util.resource.Resource
 import com.gibranlyra.moviedb.util.resource.ResourceState.*
 import com.gibranlyra.moviedbservice.model.Movie
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_category.*
 
 
 const val EXTRA_CATEGORY = "EXTRA_CATEGORY"
 
-class CategoryFragment : Fragment() {
+class CategoryFragment : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
@@ -47,7 +50,8 @@ class CategoryFragment : Fragment() {
     private val categoryAdapter by lazy {
         VerticalMovieAdapter(mutableListOf(), object : BaseAdapter.AdapterListener<Movie> {
             override fun onAdapterItemClicked(position: Int, item: Movie, view: View) {
-                activity?.replaceFragment(MovieDetailFragment.newInstance(item), R.id.rootLayout, true)
+                MovieDetailFragment.newInstance(item)
+                        .show(childFragmentManager, tag)
             }
         })
     }
@@ -59,6 +63,7 @@ class CategoryFragment : Fragment() {
         arguments?.getSerializable(EXTRA_CATEGORY)?.let {
             category = it as CategoryViewModel.Category
         } ?: run { activity?.requiredBundleNotFound(EXTRA_CATEGORY) }
+        setStyle(STYLE_NORMAL, R.style.SheetDialog)
         initViewModel()
     }
 
